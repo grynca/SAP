@@ -30,7 +30,7 @@ namespace grynca {
     inline uint32_t SAPManager<ClientData, AXES_COUNT>::addBox(Extent* extents, uint32_t coll_group_id, const ClientData& client_data) {
 #ifndef NDEBUG
         for (uint32_t a=0; a<AXES_COUNT; ++a) {
-            assert(extents[a].min < extents[a].max);
+            assert(extents[a].min <= extents[a].max);
         }
 #endif
 
@@ -75,7 +75,7 @@ namespace grynca {
     inline void SAPManager<ClientData, AXES_COUNT>::updateBox(uint32_t box_id, Extent* extents) {
 #ifndef NDEBUG
         for (uint32_t a=0; a<AXES_COUNT; ++a) {
-            assert(extents[a].min < extents[a].max);
+            assert(extents[a].min <= extents[a].max);
         }
 #endif
         clearInterestingFlags();
@@ -250,6 +250,14 @@ namespace grynca {
 
         return b.getOverlaps();
     }
+
+    template <typename ClientData, uint32_t AXES_COUNT>
+    const fast_vector<uint32_t>& SAPManager<ClientData, AXES_COUNT>::getOverlapsAtPos(uint32_t pos_id, uint32_t& box_id_out) {
+        Box& b = boxes_.getAtPos(pos_id);
+        box_id_out = boxes_.getIndexForPos(pos_id);
+        return b.getOverlaps();
+    }
+
 
     template <typename ClientData, uint32_t AXES_COUNT>
     inline uint32_t SAPManager<ClientData, AXES_COUNT>::getGroupId(uint32_t box_id) {

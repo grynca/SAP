@@ -35,7 +35,8 @@ namespace grynca {
         void removeBox(uint32_t box_id);
         void getBox(uint32_t box_id, Extent* extents);
         ClientData& getClientData(uint32_t box_id);
-        const fast_vector<uint32_t>& getOverlaps(uint32_t box_id);
+        const fast_vector<uint32_t>& getOverlaps(uint32_t box_id);  // returns indices of
+        const fast_vector<uint32_t>& getOverlapsAtPos(uint32_t pos_id, uint32_t& box_id_out);   // for looping over all overlaps
         uint32_t getGroupId(uint32_t box_id);
         uint32_t getBoxesCount();
         void updateCollisionFlags();
