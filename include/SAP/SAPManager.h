@@ -1,75 +1,84 @@
 #ifndef SAP_MANAGER_H
 #define SAP_MANAGER_H
 
-#include "types/containers/UnsortedVector.h"
-#include "SAP_internal.h"
+#include "types/containers/Array.h"
+#include "types/Path.h"
 #include <vector>
+#include "SAPSegment.h"
+#ifdef VISUAL_DEBUG
+#   include "assets/Image.h"
+#endif
 
 namespace grynca {
-
-    static const uint32_t MAX_COLLISION_GROUPS = 512;
-
-    struct Extent {
-        float min;
-        float max;
-    };
-
-    typedef std::bitset<MAX_COLLISION_GROUPS> GroupFlags;
 
     // provides asymetrical collision setup (e.g.: G1->G2 collide, but G2->G1 dont collide)
     // update fast (exploits time coherence from previous frames)
     // insertion, deletion, changing collision group flags slow (up-to 10k boxes ok)
 
-    template <typename ClientData, uint32_t AXES_COUNT=3>
+    template <typename ClientData, uint32_t AXES_COUNT>
     class SAPManager {
-        typedef SAP_internal::Box_<ClientData, AXES_COUNT> Box;
-
+        typedef SAP::Box_<ClientData, AXES_COUNT> Box;
+        typedef SAPSegment<ClientData, AXES_COUNT> Segment;
     public:
         SAPManager();
+        ~SAPManager();
 
-        GroupFlags & getCollisionFlags(uint32_t group_id);  // default: all true
+        SAP::GroupFlags & getCollisionFlags(uint32_t group_id);  // default: all true
         void setCollisionFlags(uint32_t group_id, bool value, const fast_vector<uint32_t>& group_ids);
+        void updateCollisionFlags();    // updates current collisions after changing collision flags -> loops through all boxes, can be slow
 
-        uint32_t addBox(Extent* extents, uint32_t coll_group_id, const ClientData& client_data);       // returns box id
-        void updateBox(uint32_t box_id, Extent* extents);
+        uint32_t addBox(SAP::Extent* extents, uint32_t coll_group_id, const ClientData& client_data);       // returns box id
+        void updateBox(uint32_t box_id, SAP::Extent* extents);
+        void moveBox(uint32_t box_id, float* move_vec);
         void removeBox(uint32_t box_id);
-        void getBox(uint32_t box_id, Extent* extents);
+        void getBox(uint32_t box_id, SAP::Extent* extents);
+        bool tryGetBox(uint32_t box_id, SAP::Extent* extents);
         ClientData& getClientData(uint32_t box_id);
-        const fast_vector<uint32_t>& getOverlaps(uint32_t box_id);  // returns indices of
-        const fast_vector<uint32_t>& getOverlapsAtPos(uint32_t pos_id, uint32_t& box_id_out);   // for looping over all overlaps
         uint32_t getGroupId(uint32_t box_id);
         uint32_t getBoxesCount();
-        void updateCollisionFlags();
+        uint32_t getBoxesPoolSize();        // with holes included
 
+
+        Segment* getRootSegment();
         // for debug
         void validate();
         uint32_t getOverlapsCount();
+        std::string debugPrint();
+#ifdef VISUAL_DEBUG
+        Image::Ref debugImage();
+#endif
     private:
-        void updateMinMaxPoints_(uint32_t box_id, float min_value, float max_value, uint32_t axis);
-        uint32_t movePointRight_(int32_t point_id, float new_value, uint32_t axis);
-        uint32_t movePointLeft_(int32_t point_id, float new_value, uint32_t axis);
-        void insertSingleAxis(uint32_t new_box_id, float min_val, float max_val, uint32_t axis);
-        void findOverlapsOnAxis(uint32_t box_id, uint32_t axis);
-        uint32_t bisectInsertFind(SAP_internal::Points& points, float val, uint32_t from, uint32_t to);
-        SAP_internal::LongestSide findLongestSide(uint32_t axis);
+        template <typename, uint32_t> friend class SAPSegment;
+
+        struct DeferredAfterUpdate {
+            fast_vector<Segment*> crossings_;
+            fast_vector<Segment*> merges_;
+        };
+
+        Box* getBox_(uint32_t box_id);
         bool boxesOverlap_(Box& b1, Box& b2);
-        bool intervalsOverlap_(uint32_t min1, uint32_t max1, uint32_t min2, uint32_t max2);
-        uint32_t getScanStartId_(uint32_t min_id, uint32_t axis);   // if from where we must scan for overlaps
-        void clearInterestingFlags();
+        void debugPrintSegmentRec_(const std::string& name, std::vector<bool>& path, Segment* s, std::ostream& os, uint32_t& segs_cnt, uint32_t* splits_count);
+        float debugFindLowPointRec_(Segment* seg, uint32_t a);
+        float debugFindHighPointRec_(Segment* seg, uint32_t a);
+        void afterUpdate_(Box* box, uint32_t box_id, SAP::Extent* extents);
 
-        UnsortedVector<Box> boxes_;
-        // sorted from low to high
-        SAP_internal::Points points_[AXES_COUNT];
-        SAP_internal::LongestSide longest_sides_[AXES_COUNT];
 
-        std::vector<bool> interesting_ids_flags_;
-        fast_vector<uint32_t> interesting_ids_;
+        Segment* root_;
+        Pool boxes_;
 
-        GroupFlags collision_groups_matrix_[MAX_COLLISION_GROUPS];
-        GroupFlags collision_flags_changed_;
+        SAP::Overlaps overlaps_;
+        DeferredAfterUpdate deferred_after_update_;
+
+        SAP::GroupFlags collision_groups_matrix_[SAP::MAX_COLLISION_GROUPS];
+        SAP::GroupFlags collision_flags_changed_;
     };
 
+    template <typename ClientData>
+    class SAPManager2D : public SAPManager<ClientData, 2> {};
+
+    template <typename ClientData>
+    class SAPManager3D : public SAPManager<ClientData, 3> {};
 }
 
-#include "SAP.inl"
+#include "SAPManager.inl"
 #endif //SAP_MANAGER_H

@@ -1,20 +1,24 @@
 #include "SAP_internal.h"
+#include "SAPSegment.h"
+
+#define BOX_TPL template <typename ClientData, uint32_t AXES_COUNT>
+#define BOX_TYPE Box_<ClientData, AXES_COUNT>
 
 namespace grynca {
-    namespace SAP_internal {
+    namespace SAP {
 
-        inline EndPoint::EndPoint(uint32_t box_id, bool is_min, float value)
+        inline EndPoint::EndPoint(uint32_t box_id, bool is_max, float value)
          : pack_data_(0), value_(value)
         {
             setBoxId(box_id);
-            setIsMin(is_min);
+            setIsMax(is_max);
         }
 
-        inline bool EndPoint::getIsMin() {
+        inline uint32_t EndPoint::getIsMax() {
             return (pack_data_>>31)&1;
         }
 
-        inline void EndPoint::setIsMin(bool v) {
+        inline void EndPoint::setIsMax(bool v) {
             if (v)
                 pack_data_ |= 1<<31;
             else
@@ -37,73 +41,161 @@ namespace grynca {
             value_ = v;
         }
 
+        inline uint32_t EndPoint::getPackData() {
+            return pack_data_;
+        }
+
         inline bool EndPoint::compareDesc(EndPoint& ep1, EndPoint& ep2) {
         //static
             return ep1.getValue()>ep2.getValue();
         }
 
 
-        template <typename ClientData, uint32_t AXES_COUNT>
-        inline void Box_<ClientData, AXES_COUNT>::setMinId(uint32_t a, uint32_t mid) {
-            min_max_ids_[a].v1 = mid;
+        BOX_TPL
+        inline uint32_t BOX_TYPE::getOccurencesCount() {
+            return occurences_count_;
         }
 
-        template <typename ClientData, uint32_t AXES_COUNT>
-        inline void Box_<ClientData, AXES_COUNT>::setMaxId(uint32_t a, uint32_t mid) {
-            min_max_ids_[a].v2 = mid;
+        BOX_TPL
+        inline uint32_t BOX_TYPE::findOccurence(Segment* segment) {
+            for (uint32_t i=0; i<getOccurencesCount(); ++i) {
+                if (occurences_[i].segment_ == segment) {
+                    return i;
+                }
+            }
+            return InvalidId();
         }
 
-        template <typename ClientData, uint32_t AXES_COUNT>
-        inline uint32_t Box_<ClientData, AXES_COUNT>::getMinId(uint32_t a) {
-            return min_max_ids_[a].v1;
+        BOX_TPL
+        inline void BOX_TYPE::removeOccurence(uint32_t id) {
+            ASSERT(getOccurencesCount());
+            occurences_[id] = occurences_[occurences_count_-1];
+            --occurences_count_;
         }
 
-        template <typename ClientData, uint32_t AXES_COUNT>
-        inline uint32_t Box_<ClientData, AXES_COUNT>::getMaxId(uint32_t a) {
-            return min_max_ids_[a].v2;
+        BOX_TPL
+        inline void BOX_TYPE::removeOccurence(Segment* segment) {
+            uint32_t id = findOccurence(segment);
+            ASSERT_M(id!=InvalidId(), "No such occurence");
+            removeOccurence(id);
         }
 
-        template <typename ClientData, uint32_t AXES_COUNT>
-        inline uint32_t Box_<ClientData, AXES_COUNT>::getCollisionGroup() {
+        BOX_TPL
+        inline void BOX_TYPE::changeOccurence(Segment* old_seg, Segment* new_seg) {
+            uint32_t id = findOccurence(old_seg);
+            ASSERT_M(id!=InvalidId(), "No such occurence");
+            occurences_[id].segment_ = new_seg;
+        }
+
+        BOX_TPL
+        inline void BOX_TYPE::setMinId(Segment* segment, uint32_t a, uint32_t mid) {
+            for (uint32_t i=0; i<getOccurencesCount(); ++i) {
+                if (occurences_[i].segment_ == segment) {
+                    occurences_[i].min_max_ids_[a].accMin() = mid;
+                    return;
+                }
+            }
+            ASSERT(occurences_count_ < SAP::MAX_BOX_OCCURENCES);
+            occurences_[occurences_count_].segment_ = segment;
+            occurences_[occurences_count_].min_max_ids_[a].accMin() = mid;
+            ++occurences_count_;
+        }
+
+        BOX_TPL
+        inline void BOX_TYPE::setMaxId(Segment* segment, uint32_t a, uint32_t mid) {
+            for (uint32_t i=0; i<getOccurencesCount(); ++i) {
+                if (occurences_[i].segment_ == segment) {
+                    occurences_[i].min_max_ids_[a].accMax() = mid;
+                    return;
+                }
+            }
+
+            ASSERT(occurences_count_ < SAP::MAX_BOX_OCCURENCES);
+            occurences_[occurences_count_].segment_ = segment;
+            occurences_[occurences_count_].min_max_ids_[a].accMax() = mid;
+            ++occurences_count_;
+        }
+
+        BOX_TPL
+        inline void BOX_TYPE::setEndPointId(Segment* segment, uint32_t a, uint32_t epid, uint32_t min_or_max) {
+            for (uint32_t i=0; i<getOccurencesCount(); ++i) {
+                if (occurences_[i].segment_ == segment) {
+                    occurences_[i].min_max_ids_[a].v[min_or_max] = epid;
+                    return;
+                }
+            }
+
+            ASSERT(occurences_count_ < SAP::MAX_BOX_OCCURENCES);
+            occurences_[occurences_count_].segment_ = segment;
+            occurences_[occurences_count_].min_max_ids_[a].v[min_or_max] = epid;
+            ++occurences_count_;
+        }
+
+        BOX_TPL
+        inline uint32_t BOX_TYPE::getMinId(Segment* segment, uint32_t a) {
+            uint32_t id = findOccurence(segment);
+            ASSERT_M(id!=InvalidId(), "No such occurence");
+            return occurences_[id].min_max_ids_[a].accMin();
+        }
+
+        BOX_TPL
+        inline uint32_t BOX_TYPE::getMaxId(Segment* segment, uint32_t a) {
+            uint32_t id = findOccurence(segment);
+            ASSERT_M(id!=InvalidId(), "No such occurence");
+            return occurences_[id].min_max_ids_[a].accMax();
+        }
+
+        BOX_TPL
+        inline void BOX_TYPE::getMinsMaxs(Segment* segment, Pair* mins_maxs_out) {
+            uint32_t id = findOccurence(segment);
+            ASSERT_M(id!=InvalidId(), "No such occurence");
+            memcpy(mins_maxs_out, occurences_[id].min_max_ids_, sizeof(Pair)*AXES_COUNT);
+        }
+
+        BOX_TPL
+        inline float BOX_TYPE::getMinValue(uint32_t a) {
+            ASSERT(getOccurencesCount() && "Box must have at least 1 occurence");
+            Segment* seg = occurences_[0].segment_;
+            return seg->points_[a][occurences_[0].min_max_ids_[a].accMin()].getValue();
+        }
+
+        BOX_TPL
+        inline float BOX_TYPE::getMaxValue(uint32_t a) {
+            ASSERT(getOccurencesCount() && "Box must have at least 1 occurence");
+            Segment* seg = occurences_[0].segment_;
+            return seg->points_[a][occurences_[0].min_max_ids_[a].accMax()].getValue();
+        }
+
+        BOX_TPL
+        inline void BOX_TYPE::getMinMaxValue(uint32_t a, float& min, float& max) {
+            ASSERT(getOccurencesCount() && "Box must have at least 1 occurence");
+            Segment* seg = occurences_[0].segment_;
+            Pair min_max_id = occurences_[0].min_max_ids_[a];
+            min = seg->points_[a][min_max_id.v[0]].getValue();
+            max = seg->points_[a][min_max_id.v[1]].getValue();
+        }
+
+        BOX_TPL
+        inline uint32_t BOX_TYPE::getCollisionGroup() {
             return collision_group_;
         }
 
-        template <typename ClientData, uint32_t AXES_COUNT>
-        inline void Box_<ClientData, AXES_COUNT>::setCollisionGroup(uint32_t group_id) {
+        BOX_TPL
+        inline void BOX_TYPE::setCollisionGroup(uint32_t group_id) {
             collision_group_ = group_id;
         }
 
-        template <typename ClientData, uint32_t AXES_COUNT>
-        inline void Box_<ClientData, AXES_COUNT>::setClientData(const ClientData& cd) {
+        BOX_TPL
+        inline void BOX_TYPE::setClientData(const ClientData& cd) {
             client_data_ = cd;
         }
 
-        template <typename ClientData, uint32_t AXES_COUNT>
-        inline ClientData& Box_<ClientData, AXES_COUNT>::getClientData() {
+        BOX_TPL
+        inline ClientData& BOX_TYPE::getClientData() {
             return client_data_;
         }
-
-        template <typename ClientData, uint32_t AXES_COUNT>
-        inline void Box_<ClientData, AXES_COUNT>::addOverlap(uint32_t box_id) {
-            fast_vector<uint32_t>::iterator it = std::find(overlaps_.begin(), overlaps_.end(), box_id);
-            if (it == overlaps_.end()) {
-                overlaps_.push_back(box_id);
-            }
-        }
-
-        template <typename ClientData, uint32_t AXES_COUNT>
-        inline void Box_<ClientData, AXES_COUNT>::removeOverlap(uint32_t box_id) {
-            fast_vector<uint32_t>::iterator it = std::find(overlaps_.begin(), overlaps_.end(), box_id);
-            if (it != overlaps_.end()) {
-                *it = overlaps_.back();
-                overlaps_.pop_back();
-            }
-        }
-
-        template <typename ClientData, uint32_t AXES_COUNT>
-        inline fast_vector<uint32_t>& Box_<ClientData, AXES_COUNT>::getOverlaps() {
-            return overlaps_;
-        }
-
     }
 }
+
+#undef BOX_TPL
+#undef BOX_TYPE

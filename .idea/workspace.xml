@@ -12,12 +12,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="758026c1-1e2a-48eb-a0b5-07ac05e25259" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/include/SAP/PairManager.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/include/SAP/PairManager.inl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/include/SAP/SAPManager.inl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/include/SAP/SAPSegment.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/include/SAP/SAPSegment.inl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/include/SAP/SAP_config.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test_cfg.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/update_loop.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/update_loop.h" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Emscripten/main.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Emscripten/main.html.mem" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Emscripten/main.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/Emscripten/test.bc" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/include/SAP/SAP.inl" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/main.cpp" afterPath="$PROJECT_DIR$/src/main.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/SAP.iml" afterPath="$PROJECT_DIR$/.idea/SAP.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/SAP/SAP.inl" afterPath="$PROJECT_DIR$/include/SAP/SAP.inl" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/emscripten_build.sh" afterPath="$PROJECT_DIR$/emscripten_build.sh" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/SAP/SAPManager.h" afterPath="$PROJECT_DIR$/include/SAP/SAPManager.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/SAP/SAP_internal.h" afterPath="$PROJECT_DIR$/include/SAP/SAP_internal.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/SAP/SAP_internal.inl" afterPath="$PROJECT_DIR$/include/SAP/SAP_internal.inl" />
     </list>
     <ignored path="SAP.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -38,113 +55,62 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="SAPManager.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/include/SAP/SAPManager.h">
+      <file leaf-file-name="SAPManager.inl" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/include/SAP/SAPManager.inl">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="22" column="57" selection-start-line="22" selection-start-column="57" selection-end-line="22" selection-end-column="57" />
+            <state relative-caret-position="2873">
+              <caret line="169" column="0" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
               <folding>
-                <element signature="e#45#89#0" expanded="true" />
-                <element signature="e#592#636#0" expanded="true" />
+                <element signature="e#0#23#0" expanded="true" />
+                <element signature="e#10614#10752#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SAP_internal.h" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/include/SAP/SAP_internal.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.24861878">
-              <caret line="30" column="21" selection-start-line="30" selection-start-column="21" selection-end-line="30" selection-end-column="21" />
-              <folding>
-                <element signature="e#994#1036#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="emscripten_build.sh" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/emscripten_build.sh">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="8" column="7" selection-start-line="8" selection-start-column="7" selection-end-line="8" selection-end-column="7" />
-              <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="main.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main.cpp">
+        <entry file="file://$PROJECT_DIR$/src/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="20" column="9" selection-start-line="20" selection-start-column="9" selection-end-line="20" selection-end-column="9" />
+            <state relative-caret-position="102">
+              <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="21" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SAP.inl" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/include/SAP/SAP.inl">
+      <file leaf-file-name="test_cfg.h" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/test_cfg.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="6" column="55" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="55" />
+            <state relative-caret-position="51">
+              <caret line="3" column="19" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="19" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="update_loop.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/update_loop.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-254">
+              <caret line="29" column="23" selection-start-line="29" selection-start-column="23" selection-end-line="29" selection-end-column="23" />
               <folding>
-                <element signature="e#0#23#0" expanded="true" />
-                <element signature="e#98#140#0" expanded="true" />
-                <element signature="e#338#380#0" expanded="true" />
-                <element signature="e#551#593#0" expanded="true" />
-                <element signature="e#969#1011#0" expanded="true" />
-                <element signature="e#2733#2775#0" expanded="true" />
-                <element signature="e#4719#4761#0" expanded="true" />
-                <element signature="e#6411#6453#0" expanded="true" />
-                <element signature="e#6818#6860#0" expanded="true" />
-                <element signature="e#6985#7027#0" expanded="true" />
-                <element signature="e#8386#8428#0" expanded="true" />
-                <element signature="e#9038#9080#0" expanded="true" />
-                <element signature="e#9351#9393#0" expanded="true" />
-                <element signature="e#9577#9619#0" expanded="true" />
-                <element signature="e#9817#9859#0" expanded="true" />
-                <element signature="e#10041#10083#0" expanded="true" />
-                <element signature="e#11019#11061#0" expanded="true" />
-                <element signature="e#12527#12569#0" expanded="true" />
-                <element signature="e#13964#14006#0" expanded="true" />
-                <element signature="e#15672#15714#0" expanded="true" />
-                <element signature="e#16742#16784#0" expanded="true" />
-                <element signature="e#17357#17399#0" expanded="true" />
-                <element signature="e#18108#18150#0" expanded="true" />
-                <element signature="e#18519#18561#0" expanded="true" />
-                <element signature="e#18815#18857#0" expanded="true" />
-                <element signature="e#19469#19511#0" expanded="true" />
+                <element signature="e#0#17#0" expanded="true" />
+                <element signature="e#133#176#0" expanded="true" />
+                <element signature="e#277#521#0" expanded="true" />
+                <element signature="e#1108#1334#0" expanded="true" />
+                <element signature="e#2313#2657#0" expanded="true" />
+                <element signature="e#2716#2774#0" expanded="true" />
+                <marker date="1469162063445" expanded="true" signature="835:857" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SAP.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/include/SAP.h">
+      <file leaf-file-name="update_loop.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/update_loop.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="fast_vector.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../base/src/types/containers/fast_vector.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="433" column="0" selection-start-line="433" selection-start-column="0" selection-end-line="433" selection-end-column="0" />
+            <state relative-caret-position="85">
+              <caret line="5" column="16" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -153,21 +119,49 @@
       <file leaf-file-name="SAP_internal.inl" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/SAP/SAP_internal.inl">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-              <folding>
-                <element signature="e#1083#1125#0" expanded="true" />
-                <element signature="e#1279#1321#0" expanded="true" />
-                <element signature="e#1475#1517#0" expanded="true" />
-                <element signature="e#1662#1704#0" expanded="true" />
-                <element signature="e#1849#1891#0" expanded="true" />
-                <element signature="e#2033#2075#0" expanded="true" />
-                <element signature="e#2234#2276#0" expanded="true" />
-                <element signature="e#2424#2466#0" expanded="true" />
-                <element signature="e#2603#2645#0" expanded="true" />
-                <element signature="e#2958#3000#0" expanded="true" />
-                <element signature="e#3349#3391#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="2159">
+              <caret line="127" column="62" selection-start-line="127" selection-start-column="44" selection-end-line="127" selection-end-column="62" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SAP_config.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/include/SAP/SAP_config.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="14" column="31" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="debug.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../base/src/functions/debug.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="544">
+              <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SAPManager.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/include/SAP/SAPManager.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="833">
+              <caret line="49" column="12" selection-start-line="49" selection-start-column="12" selection-end-line="49" selection-end-column="12" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SAPSegment.inl" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/include/SAP/SAPSegment.inl">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3655">
+              <caret line="215" column="0" selection-start-line="215" selection-start-column="0" selection-end-line="215" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -184,31 +178,64 @@
         <option value="$PROJECT_DIR$/../base/src/types/containers/UnsortedVector.h" />
         <option value="$PROJECT_DIR$/../base/src/types/containers/UnsortedVersionedVector.inl" />
         <option value="$PROJECT_DIR$/../base/src/types/containers/UnsortedVersionedVector.h" />
-        <option value="$PROJECT_DIR$/../base/src/types/containers/fast_vector.h" />
         <option value="$PROJECT_DIR$/../base/src/types/containers/UnsortedVector.inl" />
         <option value="$PROJECT_DIR$/src/SAPManager.h" />
         <option value="$PROJECT_DIR$/src/SAP.inl" />
         <option value="$PROJECT_DIR$/src/SAP_internal.inl" />
         <option value="$PROJECT_DIR$/src/SAP_internal.h" />
-        <option value="$PROJECT_DIR$/include/SAP.h" />
-        <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/emscripten_build.sh" />
+        <option value="$PROJECT_DIR$/../base/src/functions/debug.h" />
+        <option value="$PROJECT_DIR$/../base/src/types/containers/Array.h" />
+        <option value="$PROJECT_DIR$/../base/src/types/containers/Array.inl" />
         <option value="$PROJECT_DIR$/include/SAP/SAP.inl" />
-        <option value="$PROJECT_DIR$/include/SAP/SAPManager.h" />
+        <option value="$PROJECT_DIR$/include/SAP.h" />
+        <option value="$PROJECT_DIR$/include/SAPManager.h" />
+        <option value="$PROJECT_DIR$/include/SAP/Segment.inl" />
+        <option value="$PROJECT_DIR$/include/SAP/Segment.h" />
+        <option value="$PROJECT_DIR$/../base/src/types/containers/Pool.h" />
+        <option value="$PROJECT_DIR$/../base/src/types/containers/Pool.inl" />
+        <option value="$PROJECT_DIR$/../assets/include/assets/Image.inl" />
+        <option value="$PROJECT_DIR$/../assets/include/assets/Image.h" />
+        <option value="$PROJECT_DIR$/include/sdl_app.h" />
+        <option value="$PROJECT_DIR$/include/sdl_app.cpp" />
         <option value="$PROJECT_DIR$/main.cpp" />
+        <option value="$PROJECT_DIR$/src/sdl_app.h" />
+        <option value="$PROJECT_DIR$/../base/src/functions/random.h" />
+        <option value="$PROJECT_DIR$/../base/src/types/BlockMeasure.h" />
+        <option value="$PROJECT_DIR$/../base/src/types/containers/fast_vector.h" />
+        <option value="$PROJECT_DIR$/include/SAP/PairManager.cpp" />
+        <option value="$PROJECT_DIR$/../base/src/functions/common.h" />
+        <option value="$PROJECT_DIR$/include/SAP/PairManager.h" />
+        <option value="$PROJECT_DIR$/include/SAP/PairManager.inl" />
+        <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/../base/src/functions/meta.h" />
+        <option value="$PROJECT_DIR$/include/SAP/SAPManager.h" />
+        <option value="$PROJECT_DIR$/include/SAP/SAPSegment.h" />
+        <option value="$PROJECT_DIR$/include/SAP/SAPSegment.inl" />
+        <option value="$PROJECT_DIR$/include/SAP/SAP_internal.h" />
+        <option value="$PROJECT_DIR$/include/SAP/SAP_internal.inl" />
+        <option value="$PROJECT_DIR$/include/SAP/SAPManager.inl" />
+        <option value="$PROJECT_DIR$/include/SAP/SAP_config.h" />
+        <option value="$PROJECT_DIR$/src/sdl_app.cpp" />
+        <option value="$PROJECT_DIR$/src/update_loop.h" />
+        <option value="$PROJECT_DIR$/src/main.cpp" />
+        <option value="$PROJECT_DIR$/src/test_cfg.h" />
+        <option value="$PROJECT_DIR$/src/update_loop.cpp" />
       </list>
     </option>
   </component>
-  <component name="JsBuildToolGruntFileManager" detection-done="true" />
-  <component name="JsBuildToolPackageJson" detection-done="true" />
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
   <component name="JsGulpfileManager">
     <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="1920" />
-    <option name="width" value="1912" />
-    <option name="height" value="1055" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1865" />
+    <option name="height" value="1096" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -217,7 +244,7 @@
     <OptionsSetting value="true" id="Update" />
     <OptionsSetting value="true" id="Status" />
     <OptionsSetting value="true" id="Edit" />
-    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="2" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectView">
@@ -267,6 +294,20 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SAP" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SAP" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="include" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -296,29 +337,62 @@
   <component name="PropertiesComponent">
     <property name="recentsLimit" value="5" />
     <property name="restartRequiresConfirmation" value="true" />
-    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///home/grynca/DEV/gamedev/SAP/src/SAPManager.h" />
+    <property name="SearchEverywhereHistoryKey" value="meta&#9;FILE&#9;file://C:/DEV/gamedev/base/src/functions/meta.h&#10;fast_Vector&#9;FILE&#9;file://C:/DEV/gamedev/base/src/types/containers/fast_vector.h&#10;rand&#9;FILE&#9;file://C:/DEV/gamedev/base/src/functions/random.h&#10;Pool&#9;FILE&#9;file://C:/DEV/gamedev/base/src/types/containers/Pool.h" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Honza" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../geng" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="js-jscs-nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\DEV\gamedev\SAP\src" />
       <recent name="$PROJECT_DIR$/include/SAP" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Release">
-    <configuration default="true" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" PASS_PARENT_ENVS="FALSE" PROJECT_NAME="SAP" TARGET_NAME="SAP" CONFIG_NAME="Debug" TEST_MODE="SUITE_TEST">
+  <component name="RunManager" selected="Application.Debug">
+    <configuration default="true" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SAP" TARGET_NAME="SAP" CONFIG_NAME="Debug" TEST_MODE="SUITE_TEST">
       <envs />
       <method />
     </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS="FALSE" PROJECT_NAME="SAP" TARGET_NAME="SAP" CONFIG_NAME="Debug">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SAP" TARGET_NAME="SAP" CONFIG_NAME="Debug">
       <envs />
       <method />
     </configuration>
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
       <method />
     </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="SAP" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Tox" factoryName="Tox">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="SAP" />
+      <method />
+    </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
       <node-options />
       <gulpfile />
       <tasks />
@@ -330,22 +404,128 @@
     <configuration default="true" type="js.build_tools.npm" factoryName="npm">
       <command value="run-script" />
       <scripts />
+      <node-interpreter value="project" />
       <envs />
       <method />
     </configuration>
-    <configuration default="false" name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS="FALSE" CONFIG_NAME="Debug" EXPLICIT_BUILD_TARGET_NAME="all">
+    <configuration default="true" type="tests" factoryName="Attests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="SAP" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Doctests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="SAP" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Nosetests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="SAP" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="SAP" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PUREUNITTEST" value="true" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="py.test">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="SAP" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="testToRun" value="" />
+      <option name="keywords" value="" />
+      <option name="params" value="" />
+      <option name="USE_PARAM" value="false" />
+      <option name="USE_KEYWORD" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" EXPLICIT_BUILD_TARGET_NAME="all">
       <envs />
       <method />
     </configuration>
-    <configuration default="false" name="Debug" type="CMakeRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS="FALSE" PROJECT_NAME="SAP" TARGET_NAME="SAP" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="SAP" RUN_TARGET_NAME="SAP">
+    <configuration default="false" name="Debug" type="CMakeRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SAP" TARGET_NAME="SAP" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="SAP" RUN_TARGET_NAME="SAP">
       <envs />
       <method />
     </configuration>
-    <configuration default="false" name="Release" type="CMakeRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS="FALSE" PROJECT_NAME="SAP" TARGET_NAME="SAP" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="SAP" RUN_TARGET_NAME="SAP">
+    <configuration default="false" name="Release" type="CMakeRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SAP" TARGET_NAME="SAP" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="SAP" RUN_TARGET_NAME="SAP">
       <envs />
       <method />
     </configuration>
-    <configuration default="false" name="Profile" type="CMakeRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS="FALSE" PROJECT_NAME="SAP" TARGET_NAME="SAP" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="SAP" RUN_TARGET_NAME="SAP">
+    <configuration default="false" name="Profile" type="CMakeRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS_2="true" PROJECT_NAME="SAP" TARGET_NAME="SAP" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="SAP" RUN_TARGET_NAME="SAP">
       <envs />
       <method />
     </configuration>
@@ -356,7 +536,9 @@
       <item index="3" class="java.lang.String" itemvalue="Application.Profile" />
     </list>
   </component>
-  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -365,8 +547,17 @@
       <changelist id="758026c1-1e2a-48eb-a0b5-07ac05e25259" name="Default" comment="" />
       <created>1444753918653</created>
       <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
       <updated>1444753918653</updated>
     </task>
+    <task id="LOCAL-00001" summary="minor changes">
+      <created>1450057230828</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1450057230828</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TodoView">
@@ -379,27 +570,27 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1920" y="0" width="1912" height="1055" extended-state="0" />
+    <frame x="-8" y="-8" width="1865" height="1096" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23847377" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13368984" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3004926" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13291797" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3291874" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3291874" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3291874" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3509865" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22912206" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25311205" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35306334" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38543898" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -413,545 +604,373 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="minor changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor changes" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="76" />
+      <breakpoints-dialog>
+        <breakpoints-dialog />
+      </breakpoints-dialog>
+      <option name="time" value="370" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/include/SAP/SAPManager.h">
+    <entry file="file:///usr/include/c++/4.8/bits/stl_algobase.h" />
+    <entry file="file://$PROJECT_DIR$/../base/src/types/containers/UnsortedVector.inl" />
+    <entry file="file:///usr/include/stdint.h" />
+    <entry file="file://$PROJECT_DIR$/../base/src/types/containers/UnsortedVector.h" />
+    <entry file="file://$PROJECT_DIR$/../base/src/types/containers/RoundBuffer.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="59" column="13" selection-start-line="59" selection-start-column="13" selection-end-line="59" selection-end-column="13" />
-          <folding>
-            <element signature="e#45#89#0" expanded="true" />
-            <element signature="e#592#636#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../base/src/types/containers/UnsortedVersionedVector.inl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="85" column="25" selection-start-line="85" selection-start-column="25" selection-end-line="85" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="68" column="0" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="572">
+          <caret line="26" column="32" selection-start-line="26" selection-start-column="32" selection-end-line="26" selection-end-column="32" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../maths/src/maths/Vec2.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="10" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
+        <state relative-caret-position="88">
+          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../maths/src/maths/shapes/Circle.h">
+    <entry file="file://$PROJECT_DIR$/../base/src/types/Type.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="10" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
+        <state relative-caret-position="858">
+          <caret line="39" column="27" selection-start-line="39" selection-start-column="20" selection-end-line="39" selection-end-column="27" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/include/SAP/SAP_internal.h">
+    <entry file="file://$PROJECT_DIR$/../base/src/types/containers/Array.inl">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="61" column="27" selection-start-line="61" selection-start-column="27" selection-end-line="61" selection-end-column="27" />
-          <folding>
-            <element signature="e#994#1036#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="748">
+          <caret line="34" column="49" selection-start-line="34" selection-start-column="49" selection-end-line="34" selection-end-column="49" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../base/src/types/containers/fast_vector.h">
+    <entry file="file://$PROJECT_DIR$/../base/src/types/containers/Array.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="403" column="0" selection-start-line="403" selection-start-column="0" selection-end-line="403" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="550">
+          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/include/SAP/SAP_internal.inl">
+    <entry file="file://C:/MinGW/lib/gcc/mingw32/4.9.3/include/c++/bits/stl_algobase.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="131" column="13" selection-start-line="131" selection-start-column="13" selection-end-line="131" selection-end-column="13" />
-          <folding>
-            <element signature="e#1083#1125#0" expanded="true" />
-            <element signature="e#1279#1321#0" expanded="true" />
-            <element signature="e#1475#1517#0" expanded="true" />
-            <element signature="e#1662#1704#0" expanded="true" />
-            <element signature="e#1849#1891#0" expanded="true" />
-            <element signature="e#2033#2075#0" expanded="true" />
-            <element signature="e#2234#2276#0" expanded="true" />
-            <element signature="e#2424#2466#0" expanded="true" />
-            <element signature="e#2603#2645#0" expanded="true" />
-            <element signature="e#2958#3000#0" expanded="true" />
-            <element signature="e#3349#3391#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="247">
+          <caret line="455" column="4" selection-start-line="455" selection-start-column="4" selection-end-line="455" selection-end-column="4" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/include/SAP/SAP.inl">
+    <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-            <element signature="e#98#140#0" expanded="true" />
-            <element signature="e#338#380#0" expanded="true" />
-            <element signature="e#551#593#0" expanded="true" />
-            <element signature="e#969#1011#0" expanded="true" />
-            <element signature="e#2733#2775#0" expanded="true" />
-            <element signature="e#4719#4761#0" expanded="true" />
-            <element signature="e#6411#6453#0" expanded="true" />
-            <element signature="e#6818#6860#0" expanded="true" />
-            <element signature="e#6985#7027#0" expanded="true" />
-            <element signature="e#8386#8428#0" expanded="true" />
-            <element signature="e#9038#9080#0" expanded="true" />
-            <element signature="e#9351#9393#0" expanded="true" />
-            <element signature="e#9577#9619#0" expanded="true" />
-            <element signature="e#9817#9859#0" expanded="true" />
-            <element signature="e#10041#10083#0" expanded="true" />
-            <element signature="e#11019#11061#0" expanded="true" />
-            <element signature="e#12527#12569#0" expanded="true" />
-            <element signature="e#13964#14006#0" expanded="true" />
-            <element signature="e#15672#15714#0" expanded="true" />
-            <element signature="e#16742#16784#0" expanded="true" />
-            <element signature="e#17357#17399#0" expanded="true" />
-            <element signature="e#18108#18150#0" expanded="true" />
-            <element signature="e#18519#18561#0" expanded="true" />
-            <element signature="e#18815#18857#0" expanded="true" />
-            <element signature="e#19469#19511#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../base/src/types/containers/UnsortedVector.inl">
+    <entry file="file://$PROJECT_DIR$/../base/src/types/containers/Pool.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+        <state relative-caret-position="748">
+          <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+    <entry file="file://C:/MinGW/include/math.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="203">
+          <caret line="162" column="36" selection-start-line="162" selection-start-column="36" selection-end-line="162" selection-end-column="36" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/include/SAP/SAPManager.h">
+    <entry file="file://$PROJECT_DIR$/../../libs/mingw/glew-1.13.0/include/GL/glew.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="70" column="17" selection-start-line="70" selection-start-column="17" selection-end-line="70" selection-end-column="17" />
-          <folding>
-            <element signature="e#45#89#0" expanded="true" />
-            <element signature="e#592#636#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/c++/4.8/bitset">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="1067" column="6" selection-start-line="1067" selection-start-column="6" selection-end-line="1067" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="95" column="24" selection-start-line="95" selection-start-column="24" selection-end-line="95" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../maths/src/maths/Vec2.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="10" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../maths/src/maths/shapes/Circle.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="10" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../base/src/types/containers/fast_vector.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="224" column="12" selection-start-line="224" selection-start-column="12" selection-end-line="224" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/SAP/SAP_internal.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="47" column="41" selection-start-line="47" selection-start-column="41" selection-end-line="47" selection-end-column="41" />
-          <folding>
-            <element signature="e#994#1036#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/SAP/SAP_internal.inl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="67" column="0" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
-          <folding>
-            <element signature="e#1083#1125#0" expanded="true" />
-            <element signature="e#1279#1321#0" expanded="true" />
-            <element signature="e#1475#1517#0" expanded="true" />
-            <element signature="e#1662#1704#0" expanded="true" />
-            <element signature="e#1849#1891#0" expanded="true" />
-            <element signature="e#2033#2075#0" expanded="true" />
-            <element signature="e#2234#2276#0" expanded="true" />
-            <element signature="e#2424#2466#0" expanded="true" />
-            <element signature="e#2603#2645#0" expanded="true" />
-            <element signature="e#2958#3000#0" expanded="true" />
-            <element signature="e#3349#3391#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/SAP/SAP.inl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-            <element signature="e#98#140#0" expanded="true" />
-            <element signature="e#338#380#0" expanded="true" />
-            <element signature="e#551#593#0" expanded="true" />
-            <element signature="e#969#1011#0" expanded="true" />
-            <element signature="e#2733#2775#0" expanded="true" />
-            <element signature="e#4719#4761#0" expanded="true" />
-            <element signature="e#6411#6453#0" expanded="true" />
-            <element signature="e#6818#6860#0" expanded="true" />
-            <element signature="e#6985#7027#0" expanded="true" />
-            <element signature="e#8386#8428#0" expanded="true" />
-            <element signature="e#9038#9080#0" expanded="true" />
-            <element signature="e#9351#9393#0" expanded="true" />
-            <element signature="e#9577#9619#0" expanded="true" />
-            <element signature="e#9817#9859#0" expanded="true" />
-            <element signature="e#10041#10083#0" expanded="true" />
-            <element signature="e#11019#11061#0" expanded="true" />
-            <element signature="e#12527#12569#0" expanded="true" />
-            <element signature="e#13964#14006#0" expanded="true" />
-            <element signature="e#15672#15714#0" expanded="true" />
-            <element signature="e#16742#16784#0" expanded="true" />
-            <element signature="e#17357#17399#0" expanded="true" />
-            <element signature="e#18108#18150#0" expanded="true" />
-            <element signature="e#18519#18561#0" expanded="true" />
-            <element signature="e#18815#18857#0" expanded="true" />
-            <element signature="e#19469#19511#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/SAP/SAPManager.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="11" selection-start-line="11" selection-start-column="11" selection-end-line="11" selection-end-column="11" />
-          <folding>
-            <element signature="e#45#89#0" expanded="true" />
-            <element signature="e#592#636#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/SAP/SAP_internal.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#994#1036#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/SAP/SAP_internal.inl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="23" column="41" selection-start-line="23" selection-start-column="41" selection-end-line="23" selection-end-column="41" />
-          <folding>
-            <element signature="e#1083#1125#0" expanded="true" />
-            <element signature="e#1279#1321#0" expanded="true" />
-            <element signature="e#1475#1517#0" expanded="true" />
-            <element signature="e#1662#1704#0" expanded="true" />
-            <element signature="e#1849#1891#0" expanded="true" />
-            <element signature="e#2033#2075#0" expanded="true" />
-            <element signature="e#2234#2276#0" expanded="true" />
-            <element signature="e#2424#2466#0" expanded="true" />
-            <element signature="e#2603#2645#0" expanded="true" />
-            <element signature="e#2958#3000#0" expanded="true" />
-            <element signature="e#3349#3391#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="1" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/c++/4.8/bits/streambuf_iterator.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="368" column="4" selection-start-line="368" selection-start-column="4" selection-end-line="368" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/c++/4.8/bits/stl_algo.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="1090" column="4" selection-start-line="1090" selection-start-column="4" selection-end-line="1090" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/c++/4.8/bitset">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="1067" column="6" selection-start-line="1067" selection-start-column="6" selection-end-line="1067" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../base/src/types/containers/UnsortedVersionedVector.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2744887">
-          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../base/src/types/containers/UnsortedVector.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.41980624">
-          <caret line="29" column="11" selection-start-line="29" selection-start-column="11" selection-end-line="29" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../maths/src/maths/shapes/Circle.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="10" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../maths/src/maths/Vec2.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="10" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../base/src/types/containers/UnsortedVersionedVector.inl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="85" column="25" selection-start-line="85" selection-start-column="25" selection-end-line="85" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/string.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334">
-          <caret line="49" column="13" selection-start-line="49" selection-start-column="13" selection-end-line="49" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../base/src/functions/sort_utils.inl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.098425195">
-          <caret line="6" column="54" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/c++/4.8/bits/stl_iterator_base_types.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="212" column="0" selection-start-line="212" selection-start-column="0" selection-end-line="212" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/c++/4.8/bits/stl_algobase.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="460" column="0" selection-start-line="460" selection-start-column="0" selection-end-line="460" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../base/src/types/containers/UnsortedVector.inl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="51" column="0" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../base/src/functions/random.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="18" column="16" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/stdint.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.23266219">
-          <caret line="37" column="20" selection-start-line="37" selection-start-column="20" selection-end-line="37" selection-end-column="20" />
+        <state relative-caret-position="10890">
+          <caret line="495" column="14" selection-start-line="495" selection-start-column="11" selection-end-line="495" selection-end-column="14" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/emscripten_build.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="136">
           <caret line="8" column="7" selection-start-line="8" selection-start-column="7" selection-end-line="8" selection-end-column="7" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
+    <entry file="file://$PROJECT_DIR$/../assets/include/assets/Image.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="9" selection-start-line="20" selection-start-column="9" selection-end-line="20" selection-end-column="9" />
-          <folding />
+        <state relative-caret-position="374">
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/include/SAP/SAP.inl">
+    <entry file="file://C:/MinGW/lib/gcc/mingw32/4.9.3/include/c++/bits/move.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="55" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="55" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-            <element signature="e#98#140#0" expanded="true" />
-            <element signature="e#338#380#0" expanded="true" />
-            <element signature="e#551#593#0" expanded="true" />
-            <element signature="e#969#1011#0" expanded="true" />
-            <element signature="e#2733#2775#0" expanded="true" />
-            <element signature="e#4719#4761#0" expanded="true" />
-            <element signature="e#6411#6453#0" expanded="true" />
-            <element signature="e#6818#6860#0" expanded="true" />
-            <element signature="e#6985#7027#0" expanded="true" />
-            <element signature="e#8386#8428#0" expanded="true" />
-            <element signature="e#9038#9080#0" expanded="true" />
-            <element signature="e#9351#9393#0" expanded="true" />
-            <element signature="e#9577#9619#0" expanded="true" />
-            <element signature="e#9817#9859#0" expanded="true" />
-            <element signature="e#10041#10083#0" expanded="true" />
-            <element signature="e#11019#11061#0" expanded="true" />
-            <element signature="e#12527#12569#0" expanded="true" />
-            <element signature="e#13964#14006#0" expanded="true" />
-            <element signature="e#15672#15714#0" expanded="true" />
-            <element signature="e#16742#16784#0" expanded="true" />
-            <element signature="e#17357#17399#0" expanded="true" />
-            <element signature="e#18108#18150#0" expanded="true" />
-            <element signature="e#18519#18561#0" expanded="true" />
-            <element signature="e#18815#18857#0" expanded="true" />
-            <element signature="e#19469#19511#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="328">
+          <caret line="101" column="0" selection-start-line="101" selection-start-column="0" selection-end-line="101" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/MinGW/lib/gcc/mingw32/4.9.3/include/c++/bits/stl_vector.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="331">
+          <caret line="334" column="21" selection-start-line="334" selection-start-column="19" selection-end-line="334" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../base/src/types/containers/Pool.inl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="124" column="28" selection-start-line="124" selection-start-column="28" selection-end-line="124" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/MinGW/lib/gcc/mingw32/4.9.3/include/c++/bits/predefined_ops.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="232">
+          <caret line="185" column="0" selection-start-line="185" selection-start-column="0" selection-end-line="185" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/MinGW/lib/gcc/mingw32/4.9.3/include/c++/bits/stl_algo.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="215">
+          <caret line="904" column="0" selection-start-line="904" selection-start-column="0" selection-end-line="904" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/PairManager/PairManager.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/MinGW/include/string.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="663">
+          <caret line="39" column="40" selection-start-line="39" selection-start-column="40" selection-end-line="39" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../base/src/types/Index.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="30" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/PairManager/IcePairManager.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="40" column="61" selection-start-line="40" selection-start-column="61" selection-end-line="40" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../base/src/functions/common.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="22" column="30" selection-start-line="22" selection-start-column="20" selection-end-line="22" selection-end-column="30" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/include/SAP.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="51">
+          <caret line="3" column="16" selection-start-line="3" selection-start-column="16" selection-end-line="3" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/PairManager/StdAfx.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="697">
+          <caret line="158" column="31" selection-start-line="158" selection-start-column="31" selection-end-line="158" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/PairManager/IcePairManager.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="887">
+          <caret line="117" column="21" selection-start-line="117" selection-start-column="21" selection-end-line="117" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="272">
+          <caret line="16" column="31" selection-start-line="16" selection-start-column="31" selection-end-line="16" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../base/src/types/BlockMeasure.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../base/src/functions/random.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="17" column="17" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/MinGW/lib/gcc/mingw32/4.9.3/include/c++/ext/pb_ds/detail/list_update_map_/entry_metadata_base.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../base/src/functions/meta.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="6" column="56" selection-start-line="6" selection-start-column="56" selection-end-line="6" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../assets/include/assets/Image.inl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="229" column="31" selection-start-line="229" selection-start-column="31" selection-end-line="229" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../libs/mingw/SDL2-2.0.4/x86/include/SDL2/SDL_main.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/SAP/PairManager.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="34" column="24" selection-start-line="34" selection-start-column="24" selection-end-line="34" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/SAP/PairManager.inl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-751">
+          <caret line="73" column="13" selection-start-line="73" selection-start-column="12" selection-end-line="73" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../base/src/types/containers/fast_vector.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="433" column="0" selection-start-line="433" selection-start-column="0" selection-end-line="433" selection-end-column="0" />
+        <state relative-caret-position="436">
+          <caret line="255" column="0" selection-start-line="255" selection-start-column="0" selection-end-line="255" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/SAP/SAP_internal.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1581">
+          <caret line="93" column="33" selection-start-line="93" selection-start-column="22" selection-end-line="93" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/SAP/SAPSegment.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="816">
+          <caret line="48" column="61" selection-start-line="48" selection-start-column="61" selection-end-line="48" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/SAP/SAPSegment.inl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3655">
+          <caret line="215" column="0" selection-start-line="215" selection-start-column="0" selection-end-line="215" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/include/SAP/SAPManager.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="22" column="57" selection-start-line="22" selection-start-column="57" selection-end-line="22" selection-end-column="57" />
-          <folding>
-            <element signature="e#45#89#0" expanded="true" />
-            <element signature="e#592#636#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="833">
+          <caret line="49" column="12" selection-start-line="49" selection-start-column="12" selection-end-line="49" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../base/src/functions/debug.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/SAP/SAP_config.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="31" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/include/SAP/SAP_internal.inl">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+        <state relative-caret-position="2159">
+          <caret line="127" column="62" selection-start-line="127" selection-start-column="44" selection-end-line="127" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/SAP/SAPManager.inl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2873">
+          <caret line="169" column="0" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
           <folding>
-            <element signature="e#1083#1125#0" expanded="true" />
-            <element signature="e#1279#1321#0" expanded="true" />
-            <element signature="e#1475#1517#0" expanded="true" />
-            <element signature="e#1662#1704#0" expanded="true" />
-            <element signature="e#1849#1891#0" expanded="true" />
-            <element signature="e#2033#2075#0" expanded="true" />
-            <element signature="e#2234#2276#0" expanded="true" />
-            <element signature="e#2424#2466#0" expanded="true" />
-            <element signature="e#2603#2645#0" expanded="true" />
-            <element signature="e#2958#3000#0" expanded="true" />
-            <element signature="e#3349#3391#0" expanded="true" />
+            <element signature="e#0#23#0" expanded="true" />
+            <element signature="e#10614#10752#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/include/SAP/SAP_internal.h">
+    <entry file="file://$PROJECT_DIR$/src/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.24861878">
-          <caret line="30" column="21" selection-start-line="30" selection-start-column="21" selection-end-line="30" selection-end-column="21" />
+        <state relative-caret-position="102">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/update_loop.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-254">
+          <caret line="29" column="23" selection-start-line="29" selection-start-column="23" selection-end-line="29" selection-end-column="23" />
           <folding>
-            <element signature="e#994#1036#0" expanded="true" />
+            <element signature="e#0#17#0" expanded="true" />
+            <element signature="e#133#176#0" expanded="true" />
+            <element signature="e#277#521#0" expanded="true" />
+            <element signature="e#1108#1334#0" expanded="true" />
+            <element signature="e#2313#2657#0" expanded="true" />
+            <element signature="e#2716#2774#0" expanded="true" />
+            <marker date="1469162063445" expanded="true" signature="835:857" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/update_loop.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="16" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test_cfg.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="19" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="19" />
+          <folding />
         </state>
       </provider>
     </entry>
