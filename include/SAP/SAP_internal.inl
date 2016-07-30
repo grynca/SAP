@@ -88,31 +88,18 @@ namespace grynca {
         }
 
         BOX_TPL
-        inline void BOX_TYPE::setMinId(Segment* segment, uint32_t a, uint32_t mid) {
+        inline void BOX_TYPE::setMinMaxId(Segment* segment, uint32_t a, uint32_t min_id, uint32_t max_id) {
             for (uint32_t i=0; i<getOccurencesCount(); ++i) {
                 if (occurences_[i].segment_ == segment) {
-                    occurences_[i].min_max_ids_[a].accMin() = mid;
+                    occurences_[i].min_max_ids_[a].v[0] = min_id;
+                    occurences_[i].min_max_ids_[a].v[1] = max_id;
                     return;
                 }
             }
             ASSERT(occurences_count_ < SAP::MAX_BOX_OCCURENCES);
             occurences_[occurences_count_].segment_ = segment;
-            occurences_[occurences_count_].min_max_ids_[a].accMin() = mid;
-            ++occurences_count_;
-        }
-
-        BOX_TPL
-        inline void BOX_TYPE::setMaxId(Segment* segment, uint32_t a, uint32_t mid) {
-            for (uint32_t i=0; i<getOccurencesCount(); ++i) {
-                if (occurences_[i].segment_ == segment) {
-                    occurences_[i].min_max_ids_[a].accMax() = mid;
-                    return;
-                }
-            }
-
-            ASSERT(occurences_count_ < SAP::MAX_BOX_OCCURENCES);
-            occurences_[occurences_count_].segment_ = segment;
-            occurences_[occurences_count_].min_max_ids_[a].accMax() = mid;
+            occurences_[occurences_count_].min_max_ids_[a].v[0] = min_id;
+            occurences_[occurences_count_].min_max_ids_[a].v[1] = max_id;
             ++occurences_count_;
         }
 
@@ -173,16 +160,6 @@ namespace grynca {
             Pair min_max_id = occurences_[0].min_max_ids_[a];
             min = seg->points_[a][min_max_id.v[0]].getValue();
             max = seg->points_[a][min_max_id.v[1]].getValue();
-        }
-
-        BOX_TPL
-        inline uint32_t BOX_TYPE::getCollisionGroup() {
-            return collision_group_;
-        }
-
-        BOX_TPL
-        inline void BOX_TYPE::setCollisionGroup(uint32_t group_id) {
-            collision_group_ = group_id;
         }
 
         BOX_TPL

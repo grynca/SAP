@@ -6,6 +6,8 @@
 
 #define SM_TPL template <typename ClientData, uint32_t AXES_COUNT>
 #define SM_TYPE SAPManager<ClientData, AXES_COUNT>
+#define GET_MIN(BOUNDS, AXIS) bounds[AXIS]
+#define GET_MAX(BOUNDS, AXIS) bounds[AXES_COUNT+AXIS]
 
 namespace grynca {
 
@@ -16,9 +18,6 @@ namespace grynca {
     {
         root_->setDebugName_();
         root_->calcBorders_();
-        for (uint32_t i=0; i<SAP::MAX_COLLISION_GROUPS; ++i) {
-            collision_groups_matrix_[i].set();
-        }
     }
 
     SM_TPL
@@ -27,67 +26,17 @@ namespace grynca {
     }
 
     SM_TPL
-    inline SAP::GroupFlags& SM_TYPE::getCollisionFlags(uint32_t group_id) {
-        return collision_groups_matrix_[group_id];
-    }
-
-    SM_TPL
-    void SM_TYPE::setCollisionFlags(uint32_t group_id, bool value, const fast_vector<uint32_t>& group_ids) {
-        collision_flags_changed_[group_id] = true;
-        for (uint32_t i=0; i<group_ids.size(); ++i) {
-            uint32_t gid = group_ids[i];
-            collision_groups_matrix_[group_id][gid] = value;
-        }
-    };
-
-    SM_TPL
-    inline void SM_TYPE::updateCollisionFlags() {
-//        if (collision_flags_changed_.any()) {
-//            for (uint32_t box_id=0; box_id<boxes_.size(); ++box_id) {
-//                Box* box = getBox_(box_id);
-//                if (!box)
-//                    continue;
-//                uint32_t group = box->getCollisionGroup();
-//                if (collision_flags_changed_[group]) {
-//                    box->getOverlaps().clear();
-//                    interesting_ids_.clear(boxes_.size());
-//
-//                    for (uint32_t s_id=0; s_id<box->occurences_.size(); ++s_id) {
-//                        Segment* seg = box->occurences_[s_id].segment_;
-//                        for (uint32_t a=0; a<AXES_COUNT; ++a) {
-//                            seg->findOverlapsOnAxis_(box, a, interesting_ids_);
-//                        }
-//                    }
-//
-//                    for (uint32_t i=0; i<interesting_ids_.box_ids_.size(); ++i) {
-//                        uint32_t b2_id = interesting_ids_.box_ids_[i];
-//                        Box* box2 = getBox_(b2_id);
-//                        uint32_t group2 = box2->getCollisionGroup();
-//                        bool b1_cares = collision_groups_matrix_[group][group2];
-//                        if (b1_cares && boxesOverlap_(*box, *box2)) {
-//                            box->addOverlap(b2_id);
-//                        }
-//                    }
-//                }
-//            }
-//            collision_flags_changed_.reset();
-//        }
-    }
-
-
-    SM_TPL
-    inline uint32_t SM_TYPE::addBox(SAP::Extent* extents, uint32_t coll_group_id, const ClientData& client_data) {
+    inline uint32_t SM_TYPE::addBox(float* bounds, const ClientData& client_data) {
 
 #ifdef DEBUG_BUILD
         for (uint32_t a=0; a<AXES_COUNT; ++a) {
-            ASSERT(extents[a].min <= extents[a].max);
+            ASSERT(GET_MIN(bounds, a) <= GET_MAX(bounds, a));
         }
 #endif
         uint8_t* place;
         uint32_t new_box_id = boxes_.add(place).getIndex();
         Box* new_box = new (place) Box();;
         new_box->setClientData(client_data);
-        new_box->setCollisionGroup(coll_group_id);
 
         fast_vector<Segment*> segs{root_};
         while (!segs.empty()) {
@@ -95,13 +44,13 @@ namespace grynca {
             segs.pop_back();
 
             if (!s->isSplit()) {
-                s->addBox(new_box, new_box_id, extents);
+                s->addBox(new_box, new_box_id, bounds);
             }
-            else if (extents[s->getSplitAxis()].max < s->getSplitValue()) {
+            else if (GET_MAX(bounds, s->getSplitAxis()) < s->getSplitValue()) {
                 // put to first
                 segs.push_back(s->getChild(0));
             }
-            else if (extents[s->getSplitAxis()].min > s->getSplitValue()) {
+            else if (GET_MIN(bounds, s->getSplitAxis()) > s->getSplitValue()) {
                 // put to second
                 segs.push_back(s->getChild(1));
             }
@@ -130,22 +79,22 @@ namespace grynca {
     }
 
     SM_TPL
-    inline void SM_TYPE::updateBox(uint32_t box_id, SAP::Extent* extents) {
+    inline void SM_TYPE::updateBox(uint32_t box_id, float* bounds) {
 #ifdef DEBUG_BUILD
         for (uint32_t a=0; a<AXES_COUNT; ++a) {
-            ASSERT(extents[a].min <= extents[a].max);
+            ASSERT(GET_MIN(bounds, a) <= GET_MAX(bounds, a));
         }
 #endif
         Box* b = getBox_(box_id);
         ASSERT(b);
 
         for (uint32_t i=0; i<b->getOccurencesCount(); ++i) {
-            bool oos = b->occurences_[i].segment_->updateBox(b, box_id, b->occurences_[i].min_max_ids_, extents, deferred_after_update_);
+            bool oos = b->getOccurence(i).segment_->updateBox(b, box_id, b->getOccurence(i).min_max_ids_, bounds, deferred_after_update_);
             if (oos)
                 --i;
         }
 
-        afterUpdate_(b, box_id, extents);
+        afterUpdate_(b, box_id, bounds);
     }
 
     SM_TPL
@@ -153,21 +102,21 @@ namespace grynca {
         Box* b = getBox_(box_id);
         ASSERT(b);
         ASSERT(b->getOccurencesCount());
-        typename Box::Occurence& occ = b->occurences_[0];
-        SAP::Extent extents[AXES_COUNT];
+        typename Box::Occurence& occ = b->getOccurence(0);
+        float bounds[AXES_COUNT*2];
         for (uint32_t a=0; a<AXES_COUNT; ++a) {
             SAP::Pair min_max_id = occ.min_max_ids_[a];
-            extents[a].min = occ.segment_->points_[a][min_max_id.v[0]].getValue() + move_vec[a];
-            extents[a].max = occ.segment_->points_[a][min_max_id.v[1]].getValue() + move_vec[a];
+            GET_MIN(bounds, a) = occ.segment_->points_[a][min_max_id.v[0]].getValue() + move_vec[a];
+            GET_MAX(bounds, a) = occ.segment_->points_[a][min_max_id.v[1]].getValue() + move_vec[a];
         }
 
         for (uint32_t i=0; i<b->getOccurencesCount(); ++i) {
-            bool oos = b->occurences_[i].segment_->moveBox(b, box_id, b->occurences_[i].min_max_ids_, extents, move_vec, deferred_after_update_);
+            bool oos = b->getOccurence(i).segment_->moveBox(b, box_id, b->getOccurence(i).min_max_ids_, bounds, move_vec, deferred_after_update_);
             if (oos)
                 --i;
         }
 
-        afterUpdate_(b, box_id, extents);
+        afterUpdate_(b, box_id, bounds);
     }
 
     SM_TPL
@@ -176,8 +125,8 @@ namespace grynca {
         Box* b = getBox_(box_id);
 
         for (uint32_t i=0; i<b->getOccurencesCount(); ++i) {
-            Segment* seg = b->occurences_[i].segment_;
-            seg->removeBox(b, box_id, b->occurences_[i].min_max_ids_);
+            Segment* seg = b->getOccurence(i).segment_;
+            seg->removeBox(b, box_id, b->getOccurence(i).min_max_ids_);
         }
 
         for (uint32_t i=0; i<overlaps_.removed_.size(); ++i) {
@@ -196,20 +145,20 @@ namespace grynca {
     }
 
     SM_TPL
-    inline void SM_TYPE::getBox(uint32_t box_id, SAP::Extent* extents) {
+    inline void SM_TYPE::getBox(uint32_t box_id, float* bounds) {
         Box* b = getBox_(box_id);
         for (uint32_t a=0; a<AXES_COUNT; ++a) {
-            b->getMinMaxValue(a, extents[a].min, extents[a].max);
+            b->getMinMaxValue(a, GET_MIN(bounds, a), GET_MAX(bounds, a));
         }
     }
 
     SM_TPL
-    inline bool SM_TYPE::tryGetBox(uint32_t box_id, SAP::Extent* extents) {
+    inline bool SM_TYPE::tryGetBox(uint32_t box_id, float* bounds) {
         Box* b = getBox_(box_id);
         if (!b)
             return false;
         for (uint32_t a=0; a<AXES_COUNT; ++a) {
-            b->getMinMaxValue(a, extents[a].min, extents[a].max);
+            b->getMinMaxValue(a, GET_MAX(bounds, a), GET_MIN(bounds, a));
         }
         return true;
     }
@@ -272,13 +221,13 @@ namespace grynca {
                 ASSERT(b->getOccurencesCount());
                 boxes_cnt += b->getOccurencesCount();
                 for (uint32_t i=0; i<b->getOccurencesCount(); ++i) {
-                    Segment* seg = b->occurences_[i].segment_;
+                    Segment* seg = b->getOccurence(i).segment_;
 
                     ASSERT(!seg->isSplit());
 
                     for (uint32_t a=0; a<AXES_COUNT; ++a) {
-                        uint32_t min_id = b->occurences_[i].min_max_ids_[a].v[0];
-                        uint32_t max_id = b->occurences_[i].min_max_ids_[a].v[1];
+                        uint32_t min_id = b->getOccurence(i).min_max_ids_[a].v[0];
+                        uint32_t max_id = b->getOccurence(i).min_max_ids_[a].v[1];
                         ASSERT(min_id < max_id);
                         ASSERT(min_id < seg->points_[a].size());
                         ASSERT(max_id < seg->points_[a].size());
@@ -299,6 +248,9 @@ namespace grynca {
                     continue;
                 bool overlaps_in_sap = bool(overlaps_.pm.findPair(b1_id, b2_id));
                 bool overlaps_ground_truth = boxesOverlap_(*b1, *b2);
+                if (overlaps_in_sap != overlaps_ground_truth) {
+                    overlaps_ground_truth = boxesOverlap_(*b1, *b2);
+                }
                 ASSERT(overlaps_in_sap == overlaps_ground_truth);
             }
         }
@@ -308,6 +260,27 @@ namespace grynca {
     SM_TPL
     inline uint32_t SM_TYPE::getOverlapsCount() {
         return overlaps_.pm.getPairsCount();
+    }
+
+    SM_TPL
+    inline void SM_TYPE::getOverlap(uint32_t overlap_id, uint32_t& b1_id_out, uint32_t& b2_id_out) {
+        const PairManager::Pair& p = overlaps_.pm.getPairs()[overlap_id];
+        b1_id_out = p.id1;
+        b2_id_out = p.id2;
+    }
+
+    SM_TPL
+    inline SAPRaycaster<ClientData, AXES_COUNT> SM_TYPE::getRayCaster() {
+        return Raycaster(*this);
+    }
+
+    SM_TPL
+    inline void SM_TYPE::calcBounds(float* bounds) {
+        ASSERT(getBoxesCount());
+        for (uint32_t a=0; a<AXES_COUNT; ++a) {
+            bounds[a] = root_->findLowestPointRec_(a);
+            bounds[AXES_COUNT+a] = root_->findHighestPointRec_(a);
+        }
     }
 
     SM_TPL
@@ -384,37 +357,18 @@ namespace grynca {
     inline Image::Ref SM_TYPE::debugImage() {
         ASSERT_M(AXES_COUNT == 2, "Can only visualize 2D");
 
-        float from[AXES_COUNT] = {std::numeric_limits<float>::max(), std::numeric_limits<float>::max()};
-        float to[AXES_COUNT] = {-std::numeric_limits<float>::max(), -std::numeric_limits<float>::max()};
+        float bounds[AXES_COUNT*2];
+        calcBounds(bounds);
 
-        for (uint32_t i=0; i< boxes_.size(); ++i) {
-            Box* b = getBox_(i);
-            if (!b)
-                continue;
-            for (uint32_t a=0; a<AXES_COUNT; ++a) {
-                float min = b->getMinValue(a);
-                float max = b->getMaxValue(a);
-                if (min < from[a])
-                    from[a] = min;
-                if (max > to[a])
-                    to[a] = max;
-            }
-        }
-
-        float range[AXES_COUNT] = {to[0] - from[0], to[1] - from[1]};
+        float range[AXES_COUNT] = {bounds[AXES_COUNT] - bounds[0], bounds[AXES_COUNT+1] - bounds[1]};
 
         float aspect = range[0]/range[1];
         uint32_t image_size[AXES_COUNT];
         image_size[0] = 1024;
         image_size[1] = (uint32_t)std::ceil((float)image_size[0]/aspect);
 
-        Color red{255, 0, 0};
-        Color black{0, 0, 0};
-        Color white{255, 255, 255};
-
         Image::Ref img = new Image(image_size[0], image_size[1], GL_RGBA);
-        img->fillWithColor(black);
-
+        img->fillWithColor(Color::Black());
 
         for (uint32_t i=0; i< boxes_.size(); ++i) {
             Box *b = getBox_(i);
@@ -422,23 +376,23 @@ namespace grynca {
                 continue;
 
             // convert to image coords
-            int lefti = (uint32_t)roundf(((b->getMinValue(0)-from[0])/range[0])*image_size[0]);
-            int topi = (uint32_t)roundf(((b->getMinValue(1)-from[1])/range[1])*image_size[1]);
-            int righti = (uint32_t)roundf(((b->getMaxValue(0)-from[0])/range[0])*image_size[0]);
-            int bottomi = (uint32_t)roundf(((b->getMaxValue(1)-from[1])/range[1])*image_size[1]);
+            int lefti = (uint32_t)roundf(((b->getMinValue(0)-bounds[0])/range[0])*image_size[0]);
+            int topi = (uint32_t)roundf(((b->getMinValue(1)-bounds[1])/range[1])*image_size[1]);
+            int righti = (uint32_t)roundf(((b->getMaxValue(0)-bounds[0])/range[0])*image_size[0]);
+            int bottomi = (uint32_t)roundf(((b->getMaxValue(1)-bounds[1])/range[1])*image_size[1]);
 
-            uint32_t left = clampToRange(lefti, 0, int(image_size[0]-1));
-            uint32_t right = clampToRange(righti, 0, int(image_size[0]-1));
-            uint32_t top = clampToRange(topi, 0, int(image_size[1]-1));
-            uint32_t bottom = clampToRange(bottomi, 0, int(image_size[1]-1));
+            uint32_t left = (uint32_t)clampToRange(lefti, 0, int(image_size[0]-1));
+            uint32_t right = (uint32_t)clampToRange(righti, 0, int(image_size[0]-1));
+            uint32_t top = (uint32_t)clampToRange(topi, 0, int(image_size[1]-1));
+            uint32_t bottom = (uint32_t)clampToRange(bottomi, 0, int(image_size[1]-1));
 
             for (uint32_t x=left; x<=right; ++x) {
-                img->setPixel(x, top, red);
-                img->setPixel(x, bottom, red);
+                img->setPixel(x, top, Color::Red());
+                img->setPixel(x, bottom, Color::Red());
             }
             for (uint32_t y=top; y<=bottom; ++y) {
-                img->setPixel(left, y, red);
-                img->setPixel(right, y, red);
+                img->setPixel(left, y, Color::Red());
+                img->setPixel(right, y, Color::Red());
             }
         }
 
@@ -453,18 +407,18 @@ namespace grynca {
                 uint32_t sa = (uint32_t)seg->getSplitAxis();
                 uint32_t pa = (uint32_t)1-sa;
 
-                uint32_t split_pos = (uint32_t)roundf(((seg->getSplitValue()-from[sa])/range[sa])*image_size[sa]);
+                uint32_t split_pos = (uint32_t)roundf(((seg->getSplitValue()-bounds[sa])/range[sa])*image_size[sa]);
                 uint32_t low, high;
                 float low_f, high_f;
                 if (seg->getLowBorder(pa, low_f)) {
-                    low = (uint32_t)roundf(((low_f-from[pa])/range[pa])*image_size[pa]);
+                    low = (uint32_t)roundf(((low_f-bounds[pa])/range[pa])*image_size[pa]);
                 }
                 else {
                     low = 0;
                 }
 
                 if (seg->getHighBorder(pa, high_f)) {
-                    high = (uint32_t)roundf(((high_f-from[pa])/range[pa])*image_size[pa]);
+                    high = (uint32_t)roundf(((high_f-bounds[pa])/range[pa])*image_size[pa]);
                 }
                 else {
                     high = image_size[pa]-1;
@@ -472,16 +426,12 @@ namespace grynca {
 
                 if (seg->getSplitAxis() == 0) {
                     for (uint32_t y=low; y<=high; ++y) {
-                        if (y!=low && y!=high && img->getPixel(split_pos, y) == white) {
-                            img->setPixel(split_pos, y, Color{0, 255, 0});
-                        }
-                        else
-                            img->setPixel(split_pos, y, white);
+                        img->setPixel(split_pos, y, Color::White());
                     }
                 }
                 else {
                     for (uint32_t x=low; x<=high; ++x) {
-                        img->setPixel(x, split_pos, white);
+                        img->setPixel(x, split_pos, Color::White());
                     }
                 }
 
@@ -489,6 +439,81 @@ namespace grynca {
         }
 
         return img;
+    }
+
+    SM_TPL
+    inline void SM_TYPE::debugRender(SDL_Window* w, SDL_Renderer* r) {
+        ASSERT_M(AXES_COUNT == 2, "Can only visualize 2D");
+
+        float bounds[AXES_COUNT*2];
+        calcBounds(bounds);
+        float range[AXES_COUNT] = {bounds[AXES_COUNT] - bounds[0], bounds[AXES_COUNT+1] - bounds[1]};
+
+        int w_size[AXES_COUNT];
+        SDL_GetWindowSize(w, &w_size[0], &w_size[1]);
+
+        for (uint32_t i=0; i< boxes_.size(); ++i) {
+            Box *b = getBox_(i);
+            if (!b)
+                continue;
+
+            // convert to image coords
+            int lefti = (uint32_t)roundf(((b->getMinValue(0)-bounds[0])/range[0])*w_size[0]);
+            int topi = (uint32_t)roundf(((b->getMinValue(1)-bounds[1])/range[1])*w_size[1]);
+            int righti = (uint32_t)roundf(((b->getMaxValue(0)-bounds[0])/range[0])*w_size[0]);
+            int bottomi = (uint32_t)roundf(((b->getMaxValue(1)-bounds[1])/range[1])*w_size[1]);
+
+            uint32_t left = (uint32_t)clampToRange(lefti, 0, int(w_size[0]-1));
+            uint32_t right = (uint32_t)clampToRange(righti, 0, int(w_size[0]-1));
+            uint32_t top = (uint32_t)clampToRange(topi, 0, int(w_size[1]-1));
+            uint32_t bottom = (uint32_t)clampToRange(bottomi, 0, int(w_size[1]-1));
+
+            SDL_SetRenderDrawColor(r, Color::Red().r, Color::Red().g, Color::Red().b, Color::Red().a);
+            SDL_Rect rect;
+            rect.x = left;
+            rect.y = top;
+            rect.w = right-left;
+            rect.h = bottom-top;
+            SDL_RenderDrawRect(r, &rect);
+        }
+
+        SDL_SetRenderDrawColor(r, Color::White().r, Color::White().g, Color::White().b, Color::White().a);
+        fast_vector<Segment*> s{root_};
+        while (!s.empty()) {
+            Segment* seg = s.back();
+            s.pop_back();
+            if (seg->isSplit()) {
+                s.push_back(seg->getChild(0));
+                s.push_back(seg->getChild(1));
+
+                uint32_t sa = (uint32_t)seg->getSplitAxis();
+                uint32_t pa = (uint32_t)1-sa;
+
+                uint32_t split_pos = (uint32_t)roundf(((seg->getSplitValue()-bounds[sa])/range[sa])*w_size[sa]);
+                uint32_t low, high;
+                float low_f, high_f;
+                if (seg->getLowBorder(pa, low_f)) {
+                    low = (uint32_t)roundf(((low_f-bounds[pa])/range[pa])*w_size[pa]);
+                }
+                else {
+                    low = 0;
+                }
+
+                if (seg->getHighBorder(pa, high_f)) {
+                    high = (uint32_t)roundf(((high_f-bounds[pa])/range[pa])*w_size[pa]);
+                }
+                else {
+                    high = (uint32_t)w_size[pa]-1;
+                }
+
+                if (seg->getSplitAxis() == 0) {
+                    SDL_RenderDrawLine(r, split_pos, low, split_pos, high);
+                }
+                else {
+                    SDL_RenderDrawLine(r, low, split_pos, high, split_pos);
+                }
+            }
+        }
     }
 #endif
 
@@ -511,10 +536,10 @@ namespace grynca {
             float low, high;
 
             if (!s->getLowBorder((uint32_t)s->getSplitAxis(), low)) {
-                low = debugFindLowPointRec_(s, (uint32_t)s->getSplitAxis());
+                low = s->findLowestPointRec_((uint32_t)s->getSplitAxis());
             }
             if (!s->getHighBorder((uint32_t)s->getSplitAxis(), high)) {
-                high = debugFindHighPointRec_(s, (uint32_t)s->getSplitAxis());
+                high = s->findHighestPointRec_((uint32_t)s->getSplitAxis());
             }
             float split_val_perc = 100*(s->split_value_ - low)/(high-low);
             ++splits_count[s->split_axis_];
@@ -535,39 +560,12 @@ namespace grynca {
     }
 
     SM_TPL
-    inline float SM_TYPE::debugFindLowPointRec_(Segment* seg, uint32_t a) {
-        if (seg->isSplit()) {
-            if ((uint32_t)seg->getSplitAxis() == a) {
-                return debugFindLowPointRec_(seg->getChild(0), a);
-            }
-            else
-                return std::max(debugFindLowPointRec_(seg->getChild(0), a), debugFindLowPointRec_(seg->getChild(1), a));
-        }
-        // else
-        return seg->points_[a][0].getValue();
-    }
-
-    SM_TPL
-    inline float SM_TYPE::debugFindHighPointRec_(Segment* seg, uint32_t a) {
-        if (seg->isSplit()) {
-            if ((uint32_t)seg->getSplitAxis() == a) {
-                return debugFindHighPointRec_(seg->getChild(1), a);
-            }
-            else
-                return std::max(debugFindHighPointRec_(seg->getChild(0), a), debugFindHighPointRec_(seg->getChild(1), a));
-        }
-
-        // else
-        return seg->points_[a].back().getValue();
-    }
-
-    SM_TPL
-    inline void SM_TYPE::afterUpdate_(Box* box, uint32_t box_id, SAP::Extent* extents) {
+    inline void SM_TYPE::afterUpdate_(Box* box, uint32_t box_id, float* bounds) {
         bool deferred_work = !deferred_after_update_.crossings_.empty() || !deferred_after_update_.merges_.empty();
         if (deferred_work) {
             for (uint32_t i=0; i<deferred_after_update_.crossings_.size(); ++i) {
                 if (box->findOccurence(deferred_after_update_.crossings_[i]) == InvalidId()) {
-                    deferred_after_update_.crossings_[i]->addBox(box, box_id, extents);
+                    deferred_after_update_.crossings_[i]->addBox(box, box_id, bounds);
                 }
             }
             for (uint32_t i=0; i<deferred_after_update_.merges_.size(); ++i) {
@@ -614,3 +612,5 @@ namespace grynca {
 #undef SM_TPL
 #undef SM_TYPE
 #undef NEW_SEGMENT
+#undef GET_MIN
+#undef GET_MAX

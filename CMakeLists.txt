@@ -40,6 +40,8 @@ set(INCL_FILES
         include/SAP/SAP_config.h
         include/SAP/PairManager.h
         include/SAP/PairManager.inl
+        include/SAP/SAPRaycaster.h
+        include/SAP/SAPRaycaster.inl
     )
 set(SRC_FILES
         src/main.cpp

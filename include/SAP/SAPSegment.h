@@ -8,6 +8,7 @@ namespace grynca {
 
     // fw
     template <typename, uint32_t> class SAPManager;
+    template <typename, uint32_t> class SAPRaycaster;
 
     template <typename ClientData, uint32_t AXES_COUNT>
     class SAPSegment {
@@ -18,11 +19,11 @@ namespace grynca {
         SAPSegment(Manager& mgr, Segment* parent);
         ~SAPSegment();
 
-        void addBox(Box* box, uint32_t box_id, SAP::Extent* extents);
+        void addBox(Box* box, uint32_t box_id, float* bounds);
 
         // returns true if moved out of segment
-        bool moveBox(Box* box, uint32_t box_id, SAP::Pair* old_min_max_ids, SAP::Extent* extents, float* move_vec, typename Manager::DeferredAfterUpdate& dau);
-        bool updateBox(Box* box, uint32_t box_id, SAP::Pair* old_min_max_ids, SAP::Extent* extents, typename Manager::DeferredAfterUpdate& dau);
+        bool moveBox(Box* box, uint32_t box_id, SAP::Pair* old_min_max_ids, float* bounds, float* move_vec, typename Manager::DeferredAfterUpdate& dau);
+        bool updateBox(Box* box, uint32_t box_id, SAP::Pair* old_min_max_ids, float* bounds, typename Manager::DeferredAfterUpdate& dau);
         void removeBox(Box* box, uint32_t box_id, SAP::Pair* min_max_ids);
 
 
@@ -47,16 +48,17 @@ namespace grynca {
     private:
         template <typename, uint32_t> friend class SAPManager;
         template <typename, uint32_t> friend class SAP::Box_;
+        template <typename, uint32_t> friend class SAPRaycaster;
 
         uint32_t bisectInsertFind_(SAP::Points& points, float val, uint32_t from, uint32_t to);
         void findOverlapsOnAxis_(Box* box, uint32_t axis);
         uint32_t getScanStartId_(uint32_t min_id, uint32_t axis);   // if from where we must scan for overlaps
         void insertSingleAxis_(Box* new_box, uint32_t new_box_id, float min_val, float max_val, uint32_t axis);
-        void addBoxInner_(Box* box, uint32_t box_id, SAP::Extent* extents);
+        void addBoxInner_(Box* box, uint32_t box_id, float* bounds);
         void removeBoxInner_(Box* box, uint32_t box_id, SAP::Pair* min_max_ids);
         SAP::LongestSide findLongestSide_(uint32_t axis);
-        void moveMinMaxPoints_(Box* box, uint32_t box_id, SAP::Pair* old_min_max_ids, SAP::Extent* extents, float* move_vec, uint32_t axis, float low, float high, typename Manager::DeferredAfterUpdate& dau);
-        void updateMinMaxPoints_(Box* box, uint32_t box_id, SAP::Pair* old_min_max_ids, SAP::Extent* extents, uint32_t axis, float low, float high, typename Manager::DeferredAfterUpdate& dau);
+        void moveMinMaxPoints_(Box* box, uint32_t box_id, SAP::Pair* old_min_max_ids, float* bounds, float* move_vec, uint32_t axis, float low, float high, typename Manager::DeferredAfterUpdate& dau);
+        void updateMinMaxPoints_(Box* box, uint32_t box_id, SAP::Pair* old_min_max_ids, float* bounds, uint32_t axis, float low, float high, typename Manager::DeferredAfterUpdate& dau);
         uint32_t moveMinRight_(uint32_t point_id, float new_value, uint32_t axis);
         uint32_t moveMaxRight_(uint32_t point_id, float new_value, uint32_t axis);
         uint32_t moveMinLeft_(int32_t point_id, float new_value, uint32_t axis);
@@ -65,13 +67,15 @@ namespace grynca {
         void merge_(Segment* removed_child);
         void pointToChild_(Segment* child, uint32_t a, uint32_t point_id);
         void setDebugName_();
-        void getPrevOverlappingLeafsRec_(uint32_t axis, SAP::Extent* extents, Segment* seg, fast_vector<Segment*>& leafs_out);
-        void getNextOverlappingLeafsRec_(uint32_t axis, SAP::Extent* extents, Segment* seg, fast_vector<Segment*>& leafs_out);
-        void startCrossingLow_(SAP::Extent* extents, uint32_t axis, typename Manager::DeferredAfterUpdate& dau);
-        void startCrossingHigh_(SAP::Extent* extents, uint32_t axis, typename Manager::DeferredAfterUpdate& dau);
+        void getPrevOverlappingLeafsRec_(uint32_t axis, float* bounds, Segment* seg, fast_vector<Segment*>& leafs_out);
+        void getNextOverlappingLeafsRec_(uint32_t axis, float* bounds, Segment* seg, fast_vector<Segment*>& leafs_out);
+        void startCrossingLow_(float* bounds, uint32_t axis, typename Manager::DeferredAfterUpdate& dau);
+        void startCrossingHigh_(float* bounds, uint32_t axis, typename Manager::DeferredAfterUpdate& dau);
         void calcBorders_();
         bool calcLowBorder_(uint32_t axis, float& val);
         bool calcHighBorder_(uint32_t axis, float& val);
+        float findLowestPointRec_(uint32_t a);
+        float findHighestPointRec_(uint32_t a);
 
         Manager* manager_;
         Segment* parent_;

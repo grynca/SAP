@@ -65,26 +65,39 @@ void SAP_test(uint32_t n, float space_size, float box_size_max) {
     {
         grynca::BlockMeasure m(" creation");
         box_ids.reserve(n);
-        SAP::Extent e[3];
+        float bounds[6];
         for (uint32_t i=0; i< n; ++i) {
-            e[0].min = ((float)rand()/RAND_MAX)*space_size;
-            e[1].min = ((float)rand()/RAND_MAX)*space_size;
-            e[2].min = ((float)rand()/RAND_MAX)*space_size;
-            e[0].max = e[0].min + ((float)rand()/RAND_MAX)*box_size_max + 0.1f;
-            e[1].max = e[1].min + ((float)rand()/RAND_MAX)*box_size_max + 0.1f;
-            e[2].max = e[2].min + ((float)rand()/RAND_MAX)*box_size_max + 0.1f;
-            uint32_t group_id = rand()%5;
+            bounds[0] = ((float)rand()/RAND_MAX)*space_size;
+            bounds[1] = ((float)rand()/RAND_MAX)*space_size;
+            bounds[2] = bounds[0] + ((float)rand()/RAND_MAX)*box_size_max + 0.1f;
+            bounds[3] = bounds[1] + ((float)rand()/RAND_MAX)*box_size_max + 0.1f;
             //std::cout << "adding box: [" << e[0].min << ", " << e[1].min<< "], [" << e[0].max << ", " << e[1].max << "]" << std::endl;
 
-            box_ids.push_back(sap.addBox(e, group_id, i));
+            box_ids.push_back(sap.addBox(bounds, i));
 //            if (i%1000 == 0)
 //                std::cout << i << std::endl;
         }
     }
 
+#ifndef WEB
     std::cout << sap.debugPrint();
     sap.debugImage()->saveToPNG("dbg.png");
     std::cout << "overlaps: " << sap.getOverlapsCount() << std::endl;
+#endif
+
+    {
+        grynca::BlockMeasure m(" Ray Cast");
+        auto rc = sap.getRayCaster();
+        float ro[2] = {4000, 4000};
+        float rd[2] = {3, 1};
+        rc.setRay(ro , rd);
+        uint32_t overlaps_cnt = 0;
+        rc.getHits([&overlaps_cnt](uint32_t bid, float t) {
+            ++overlaps_cnt;
+            return true;
+        });
+        std::cout << " ray overlaps: " << overlaps_cnt << std::endl;
+    }
 
     start_update_loop(sap, space_size);
 
@@ -98,16 +111,6 @@ void SAP_test(uint32_t n, float space_size, float box_size_max) {
             sap.removeBox(box_id);
         }
     }
-}
-
-
-void addBox(SAPManager2D<int>& sap, float left, float right, float top, float bottom, int id) {
-    SAP::Extent e[3];
-    e[0].min = left;
-    e[0].max = right;
-    e[1].min = top;
-    e[1].max = bottom;
-    sap.addBox(e, 0, id);
 }
 
 int main(int argc, char* argv[]) {

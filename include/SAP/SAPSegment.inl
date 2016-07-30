@@ -1,6 +1,9 @@
 #include "SAPSegment.h"
 #include "SAPManager.h"
+#include "types/containers/fast_vector.h"
 
+#define GET_MIN(BOUNDS, AXIS) bounds[AXIS]
+#define GET_MAX(BOUNDS, AXIS) bounds[AXES_COUNT+AXIS]
 #define SEG_TPL template<typename ClientData, uint32_t AXES_COUNT>
 #define SEG_TYPE SAPSegment<ClientData, AXES_COUNT>
 
@@ -25,12 +28,12 @@ namespace grynca {
     }
 
     SEG_TPL
-    inline void SEG_TYPE::addBox(Box* box, uint32_t box_id, SAP::Extent* extents) {
+    inline void SEG_TYPE::addBox(Box* box, uint32_t box_id, float* bounds) {
         for (uint32_t a=0; a<AXES_COUNT; ++a) {
-            insertSingleAxis_(box, box_id, extents[a].min, extents[a].max, a);
+            insertSingleAxis_(box, box_id, GET_MIN(bounds, a), GET_MAX(bounds, a), a);
             findOverlapsOnAxis_(box, a);
             // update longest side if neccessary
-            float side_len = extents[a].max - extents[a].min;
+            float side_len = GET_MAX(bounds, a) - GET_MIN(bounds, a);
             if (side_len > longest_sides_[a].length) {
                 longest_sides_[a].length = side_len;
                 longest_sides_[a].box_id = box_id;
@@ -42,13 +45,13 @@ namespace grynca {
     }
 
     SEG_TPL
-    inline bool SEG_TYPE::moveBox(Box* box, uint32_t box_id, SAP::Pair* old_min_max_ids, SAP::Extent* extents, float* move_vec, typename Manager::DeferredAfterUpdate& dau) {
+    inline bool SEG_TYPE::moveBox(Box* box, uint32_t box_id, SAP::Pair* old_min_max_ids, float* bounds, float* move_vec, typename Manager::DeferredAfterUpdate& dau) {
         bool oos = false;
 
         for (uint32_t a=0; a<AXES_COUNT; ++a) {
-            moveMinMaxPoints_(box, box_id, old_min_max_ids, extents, move_vec, a, borders_[a].low, borders_[a].high, dau);
+            moveMinMaxPoints_(box, box_id, old_min_max_ids, bounds, move_vec, a, borders_[a].low, borders_[a].high, dau);
 
-            if (extents[a].min > borders_[a].high || extents[a].max < borders_[a].low) {
+            if (GET_MIN(bounds, a) > borders_[a].high || GET_MAX(bounds, a) < borders_[a].low) {
                 oos = true;
             }
         }
@@ -65,16 +68,16 @@ namespace grynca {
     }
 
     SEG_TPL
-    inline bool SEG_TYPE::updateBox(Box* box, uint32_t box_id, SAP::Pair* old_min_max_ids, SAP::Extent* extents, typename Manager::DeferredAfterUpdate& dau) {
+    inline bool SEG_TYPE::updateBox(Box* box, uint32_t box_id, SAP::Pair* old_min_max_ids, float* bounds, typename Manager::DeferredAfterUpdate& dau) {
         bool oos = false;
         for (uint32_t a=0; a<AXES_COUNT; ++a) {
-            updateMinMaxPoints_(box, box_id, old_min_max_ids, extents, a, borders_[a].low, borders_[a].high, dau);
+            updateMinMaxPoints_(box, box_id, old_min_max_ids, bounds, a, borders_[a].low, borders_[a].high, dau);
 
-            if (extents[a].min > borders_[a].high || extents[a].max < borders_[a].low) {
+            if (GET_MIN(bounds, a) > borders_[a].high || GET_MAX(bounds, a) < borders_[a].low) {
                 oos = true;
             }
             else {
-                float side_len = extents[a].max - extents[a].min;
+                float side_len = GET_MAX(bounds, a) - GET_MIN(bounds, a);
                 if (side_len > longest_sides_[a].length) {
                     longest_sides_[a].length = side_len;
                     longest_sides_[a].box_id = box_id;
@@ -272,8 +275,7 @@ namespace grynca {
         ps.emplace(ps.begin()+new_min_id, new_box_id, false, min_val);
         ps.emplace(ps.begin()+new_max_id, new_box_id, true, max_val);
 
-        new_box->setMinId(this, axis, new_min_id);
-        new_box->setMaxId(this, axis, new_max_id);
+        new_box->setMinMaxId(this, axis, new_min_id, new_max_id);
 
         // fix ids for other boxes
         for (uint32_t i=new_min_id+1; i<new_max_id; ++i) {
@@ -306,11 +308,11 @@ namespace grynca {
     }
 
     SEG_TPL
-    inline void SEG_TYPE::addBoxInner_(Box* box, uint32_t box_id, SAP::Extent* extents) {
+    inline void SEG_TYPE::addBoxInner_(Box* box, uint32_t box_id, float* bounds) {
         for (uint32_t a=0; a<AXES_COUNT; ++a) {
-            insertSingleAxis_(box, box_id, extents[a].min, extents[a].max, a);
+            insertSingleAxis_(box, box_id, GET_MIN(bounds, a), GET_MAX(bounds, a), a);
             // update longest side if neccessary
-            float side_len = extents[a].max - extents[a].min;
+            float side_len = GET_MAX(bounds, a) - GET_MIN(bounds, a);
             if (side_len > longest_sides_[a].length) {
                 longest_sides_[a].length = side_len;
                 longest_sides_[a].box_id = box_id;
@@ -499,9 +501,9 @@ namespace grynca {
     }
 
     SEG_TPL
-    inline void SEG_TYPE::moveMinMaxPoints_(Box* box, uint32_t box_id, SAP::Pair* old_min_max_ids, SAP::Extent* extents, float* move_vec, uint32_t axis, float low, float high, typename Manager::DeferredAfterUpdate& dau) {
-        float new_min = extents[axis].min;
-        float new_max = extents[axis].max;
+    inline void SEG_TYPE::moveMinMaxPoints_(Box* box, uint32_t box_id, SAP::Pair* old_min_max_ids, float* bounds, float* move_vec, uint32_t axis, float low, float high, typename Manager::DeferredAfterUpdate& dau) {
+        float new_min = GET_MIN(bounds, axis);
+        float new_max = GET_MAX(bounds, axis);
 
         uint32_t min_id = old_min_max_ids[axis].v[0];
         SAP::EndPoint& old_min = points_[axis][min_id];
@@ -513,31 +515,28 @@ namespace grynca {
 
         if (move_vec[axis] > 0) {
             if (new_max > high && old_max.getValue()<=high ) {
-                startCrossingHigh_(extents, axis, dau);
+                startCrossingHigh_(bounds, axis, dau);
             }
             new_max_id = moveMaxRight_(max_id, new_max, axis);
             new_min_id = moveMinRight_(min_id, new_min, axis);
         }
         else {
             if (new_min < low && old_min.getValue()>=low ) {
-                startCrossingLow_(extents, axis, dau);
+                startCrossingLow_(bounds, axis, dau);
             }
             new_min_id = moveMinLeft_(min_id, new_min, axis);
             new_max_id = moveMaxLeft_(max_id, new_max, axis);
         }
 
-        if (min_id != new_min_id) {
-            box->setMinId(this, axis, new_min_id);
-        }
-        if (max_id != new_max_id) {
-            box->setMaxId(this, axis, new_max_id);
+        if (min_id != new_min_id || max_id != new_max_id) {
+            box->setMinMaxId(this, axis, new_min_id, new_max_id);
         }
     }
 
     SEG_TPL
-    inline void SEG_TYPE::updateMinMaxPoints_(Box* box, uint32_t box_id, SAP::Pair* old_min_max_ids, SAP::Extent* extents, uint32_t axis, float low, float high, typename Manager::DeferredAfterUpdate& dau) {
-        float new_min = extents[axis].min;
-        float new_max = extents[axis].max;
+    inline void SEG_TYPE::updateMinMaxPoints_(Box* box, uint32_t box_id, SAP::Pair* old_min_max_ids, float* bounds, uint32_t axis, float low, float high, typename Manager::DeferredAfterUpdate& dau) {
+        float new_min = GET_MIN(bounds, axis);
+        float new_max = GET_MAX(bounds, axis);
 
         uint32_t min_id = old_min_max_ids[axis].v[0];
         SAP::EndPoint& old_min = points_[axis][min_id];
@@ -548,14 +547,14 @@ namespace grynca {
         uint32_t new_max_id;
         if (old_min.getValue() > new_min) {
             if (new_min < low && old_min.getValue()>=low ) {
-                startCrossingLow_(extents, axis, dau);
+                startCrossingLow_(bounds, axis, dau);
             }
             new_min_id = moveMinLeft_(min_id, new_min, axis);
 
             // max
             if (old_max.getValue() < new_max) {
                 if (new_max > high && old_max.getValue()<=high ) {
-                    startCrossingHigh_(extents, axis, dau);
+                    startCrossingHigh_(bounds, axis, dau);
                 }
                 new_max_id = moveMaxRight_(max_id, new_max, axis);
             }
@@ -567,7 +566,7 @@ namespace grynca {
             // max
             if (old_max.getValue() < new_max) {
                 if (new_max > high && old_max.getValue()<=high ) {
-                    startCrossingHigh_(extents, axis, dau);
+                    startCrossingHigh_(bounds, axis, dau);
                 }
                 new_max_id = moveMaxRight_(max_id, new_max, axis);
             }
@@ -578,11 +577,8 @@ namespace grynca {
             new_min_id = moveMinRight_(min_id, new_min, axis);
         }
 
-        if (min_id != new_min_id) {
-            box->setMinId(this, axis, new_min_id);
-        }
-        if (max_id != new_max_id) {
-            box->setMaxId(this, axis, new_max_id);
+        if (min_id != new_min_id || max_id != new_max_id) {
+            box->setMinMaxId(this, axis, new_min_id, new_max_id);
         }
 
     };
@@ -613,8 +609,26 @@ namespace grynca {
         best.i = -1;
         best.axis = 0;
 
+        uint32_t largest_r = 0;
+        float ranges[AXES_COUNT];
+
         for (uint32_t a = 0; a < AXES_COUNT; ++a) {
             best.flags[a].resize(boxes_count*2, uint8_t(F_GO_TO_SECOND));
+
+            float low, high;
+            if (!getLowBorder(a, low)) {
+                low = findLowestPointRec_(a);
+            }
+            if (!getHighBorder(a, high)) {
+                high = findHighestPointRec_(a);
+            }
+            ranges[a] = high - low;
+            if (ranges[a] > ranges[largest_r])
+                largest_r = a;
+        }
+        float range_coeffs[AXES_COUNT];
+        for (uint32_t a = 0; a < AXES_COUNT; ++a) {
+            range_coeffs[a] = ranges[largest_r]/ranges[a];
         }
 
         int8_t parent_split = parent_?parent_->getSplitAxis(): int8_t(-1);
@@ -642,6 +656,7 @@ namespace grynca {
                 int split2_cnt = boxes_count-split1_cnt+crossed_cnt;
                 int splits_dif = split1_cnt - split2_cnt;
                 float val = abs(splits_dif) + crossed_cnt*SAP::CROSSED_SPLIT_PENALTY_COEF;
+                val *= range_coeffs[tested_a];
 
                 bool better_split = (val < best.val)
                                     || (val == best.val && tested_a != parent_split);       // prioritize different axis than parent's
@@ -795,10 +810,10 @@ namespace grynca {
             SAP::EndPoint& p = removed_child->points_[0][i];
             if (!p.getIsMax()) {
                 uint32_t box_id = p.getBoxId();
-                SAP::Extent extents[AXES_COUNT];
+                float bounds[AXES_COUNT*2];
                 Box* b = manager_->getBox_(box_id);
                 for (uint32_t a=0; a<AXES_COUNT; ++a) {
-                    b->getMinMaxValue(a, extents[a].min, extents[a].max);
+                    b->getMinMaxValue(a, GET_MIN(bounds, a), GET_MAX(bounds, a));
                 }
                 b->removeOccurence(removed_child);
 
@@ -809,14 +824,14 @@ namespace grynca {
 
                     if (!s->isSplit()) {
                         if (b->findOccurence(s) == InvalidId()) {
-                            s->addBoxInner_(b, box_id, extents);
+                            s->addBoxInner_(b, box_id, bounds);
                         }
                     }
-                    else if (extents[s->getSplitAxis()].max < s->getSplitValue()) {
+                    else if (GET_MAX(bounds, s->getSplitAxis()) < s->getSplitValue()) {
                         // put to first
                         segs.push_back(s->getChild(0));
                     }
-                    else if (extents[s->getSplitAxis()].min > s->getSplitValue()) {
+                    else if (GET_MIN(bounds, s->getSplitAxis()) > s->getSplitValue()) {
                         // put to second
                         segs.push_back(s->getChild(1));
                     }
@@ -873,7 +888,7 @@ namespace grynca {
     }
 
     SEG_TPL
-    inline void SEG_TYPE::getPrevOverlappingLeafsRec_(uint32_t axis, SAP::Extent* extents, Segment* seg, fast_vector<Segment*>& leafs_out) {
+    inline void SEG_TYPE::getPrevOverlappingLeafsRec_(uint32_t axis, float* bounds, Segment* seg, fast_vector<Segment*>& leafs_out) {
         if (!seg->isSplit()) {
             bool already_there = std::find(leafs_out.begin(), leafs_out.end(), seg) != leafs_out.end();
             if (!already_there) {
@@ -881,24 +896,24 @@ namespace grynca {
             }
         }
         else if (seg->getSplitAxis() == axis) {
-            getPrevOverlappingLeafsRec_(axis, extents, seg->getChild(1), leafs_out);
+            getPrevOverlappingLeafsRec_(axis, bounds, seg->getChild(1), leafs_out);
         }
         else {
-            if (extents[seg->getSplitAxis()].max < seg->getSplitValue()) {
-                getPrevOverlappingLeafsRec_(axis, extents, seg->getChild(0), leafs_out);
+            if (GET_MAX(bounds, seg->getSplitAxis()) < seg->getSplitValue()) {
+                getPrevOverlappingLeafsRec_(axis, bounds, seg->getChild(0), leafs_out);
             }
-            else if (extents[seg->getSplitAxis()].min > seg->getSplitValue()) {
-                getPrevOverlappingLeafsRec_(axis, extents, seg->getChild(1), leafs_out);
+            else if (GET_MIN(bounds, seg->getSplitAxis()) > seg->getSplitValue()) {
+                getPrevOverlappingLeafsRec_(axis, bounds, seg->getChild(1), leafs_out);
             }
             else {
-                getPrevOverlappingLeafsRec_(axis, extents, seg->getChild(0), leafs_out);
-                getPrevOverlappingLeafsRec_(axis, extents, seg->getChild(1), leafs_out);
+                getPrevOverlappingLeafsRec_(axis, bounds, seg->getChild(0), leafs_out);
+                getPrevOverlappingLeafsRec_(axis, bounds, seg->getChild(1), leafs_out);
             }
         }
     }
 
     SEG_TPL
-    inline void SEG_TYPE::getNextOverlappingLeafsRec_(uint32_t axis, SAP::Extent* extents, Segment* seg, fast_vector<Segment*>& leafs_out) {
+    inline void SEG_TYPE::getNextOverlappingLeafsRec_(uint32_t axis, float* bounds, Segment* seg, fast_vector<Segment*>& leafs_out) {
         if (!seg->isSplit()) {
             bool already_there = std::find(leafs_out.begin(), leafs_out.end(), seg) != leafs_out.end();
             if (!already_there) {
@@ -906,30 +921,30 @@ namespace grynca {
             }
         }
         else if (seg->getSplitAxis() == axis) {
-            getNextOverlappingLeafsRec_(axis, extents, seg->getChild(0), leafs_out);
+            getNextOverlappingLeafsRec_(axis, bounds, seg->getChild(0), leafs_out);
         }
         else {
-            if (extents[seg->getSplitAxis()].max < seg->getSplitValue()) {
-                getNextOverlappingLeafsRec_(axis, extents, seg->getChild(0), leafs_out);
+            if (GET_MAX(bounds, seg->getSplitAxis()) < seg->getSplitValue()) {
+                getNextOverlappingLeafsRec_(axis, bounds, seg->getChild(0), leafs_out);
             }
-            else if (extents[seg->getSplitAxis()].min > seg->getSplitValue()) {
-                getNextOverlappingLeafsRec_(axis, extents, seg->getChild(1), leafs_out);
+            else if (GET_MIN(bounds, seg->getSplitAxis()) > seg->getSplitValue()) {
+                getNextOverlappingLeafsRec_(axis, bounds, seg->getChild(1), leafs_out);
             }
             else {
-                getNextOverlappingLeafsRec_(axis, extents, seg->getChild(0), leafs_out);
-                getNextOverlappingLeafsRec_(axis, extents, seg->getChild(1), leafs_out);
+                getNextOverlappingLeafsRec_(axis, bounds, seg->getChild(0), leafs_out);
+                getNextOverlappingLeafsRec_(axis, bounds, seg->getChild(1), leafs_out);
             }
         }
     }
 
     SEG_TPL
-    inline void SEG_TYPE::startCrossingLow_(SAP::Extent* extents, uint32_t axis, typename Manager::DeferredAfterUpdate& dau) {
-        getPrevOverlappingLeafsRec_(axis, extents, getPrevNeighbor(axis), dau.crossings_);
+    inline void SEG_TYPE::startCrossingLow_(float* bounds, uint32_t axis, typename Manager::DeferredAfterUpdate& dau) {
+        getPrevOverlappingLeafsRec_(axis, bounds, getPrevNeighbor(axis), dau.crossings_);
     }
 
     SEG_TPL
-    inline void SEG_TYPE::startCrossingHigh_(SAP::Extent* extents, uint32_t axis, typename Manager::DeferredAfterUpdate& dau) {
-        getNextOverlappingLeafsRec_(axis, extents, getNextNeighbor(axis), dau.crossings_);
+    inline void SEG_TYPE::startCrossingHigh_(float* bounds, uint32_t axis, typename Manager::DeferredAfterUpdate& dau) {
+        getNextOverlappingLeafsRec_(axis, bounds, getNextNeighbor(axis), dau.crossings_);
     }
 
     SEG_TPL
@@ -961,7 +976,36 @@ namespace grynca {
 
         return (bool)n;
     }
+
+    SEG_TPL
+    inline float SEG_TYPE::findLowestPointRec_(uint32_t a) {
+        if (isSplit()) {
+            if ((uint32_t)getSplitAxis() == a) {
+                return getChild(0)->findLowestPointRec_(a);
+            }
+            else
+                return std::min(getChild(0)->findLowestPointRec_(a), getChild(1)->findLowestPointRec_(a));
+        }
+        // else
+        return points_[a][0].getValue();
+    }
+
+    SEG_TPL
+    inline float SEG_TYPE::findHighestPointRec_(uint32_t a) {
+        if (isSplit()) {
+            if ((uint32_t)getSplitAxis() == a) {
+                return getChild(1)->findHighestPointRec_(a);
+            }
+            else
+                return std::max(getChild(0)->findHighestPointRec_(a), getChild(1)->findHighestPointRec_(a));
+        }
+        // else
+        return points_[a].back().getValue();
+    }
+
 }
 
+#undef GET_MIN
+#undef GET_MAX
 #undef SEG_TPL
 #undef SEG_TYPE

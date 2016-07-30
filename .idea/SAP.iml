@@ -8,13 +8,15 @@
       <sourceFolder url="file://$MODULE_DIR$/src/update_loop.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/SAP.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/SAP/SAPRaycaster.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/SAP/SAP_internal.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/SAP/PairManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/SAP/PairManager.inl" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/SAP/SAPSegment.inl" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/SAP/SAPManager.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/SAP/SAP_internal.inl" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/SAP/SAPManager.inl" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/SAP/PairManager.inl" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/include/SAP/SAPSegment.inl" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/SAP/PairManager.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/SAP/SAPRaycaster.inl" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/SAP/SAPSegment.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/include/SAP/SAP_config.h" isTestSource="false" />
     </content>

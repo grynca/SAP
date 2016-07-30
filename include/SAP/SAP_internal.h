@@ -14,13 +14,6 @@ namespace grynca {
 
     namespace SAP {
 
-        struct Extent {
-            float min;
-            float max;
-        };
-
-        typedef std::bitset<SAP::MAX_COLLISION_GROUPS> GroupFlags;
-
         class EndPoint {
         public:
             EndPoint(uint32_t box_id, bool is_max, float value);
@@ -61,15 +54,20 @@ namespace grynca {
         class Box_ {
             typedef SAPSegment<ClientData, AXES_COUNT> Segment;
         public:
+            struct Occurence {
+                Segment* segment_;
+                Pair min_max_ids_[AXES_COUNT];
+            };
+        public:
             Box_() : occurences_count_(0) {}
 
             uint32_t getOccurencesCount();
+            Occurence& getOccurence(uint32_t id) { return occurences_[id]; }
             uint32_t findOccurence(Segment* segment);
             void removeOccurence(uint32_t id);
             void removeOccurence(Segment* segment);
             void changeOccurence(Segment* old_seg, Segment* new_seg);
-            void setMinId(Segment* segment, uint32_t a, uint32_t mid);
-            void setMaxId(Segment* segment, uint32_t a, uint32_t mid);
+            void setMinMaxId(Segment* segment, uint32_t a, uint32_t min_id, uint32_t max_id);
             void setEndPointId(Segment* segment, uint32_t a, uint32_t epid, uint32_t min_or_max /* min == 0, max == 1*/);
             uint32_t getMinId(Segment* segment, uint32_t a);
             uint32_t getMaxId(Segment* segment, uint32_t a);
@@ -77,24 +75,15 @@ namespace grynca {
             float getMinValue(uint32_t a);
             float getMaxValue(uint32_t a);
             void getMinMaxValue(uint32_t a, float& min, float& max);
-            uint32_t getCollisionGroup();
-            void setCollisionGroup(uint32_t group_id);
             void setClientData(const ClientData& cd);
             ClientData& getClientData();
         private:
             template <typename, uint32_t> friend class SAPManager;
             template <typename, uint32_t> friend class SAPSegment;
 
-            struct Occurence {
-                Segment* segment_;
-                Pair min_max_ids_[AXES_COUNT];
-            };
-
             ClientData client_data_;
             Occurence occurences_[SAP::MAX_BOX_OCCURENCES];
             uint32_t occurences_count_;
-            //fast_vector<Occurence> occurences_;
-            uint32_t collision_group_;
         };
 
         struct Overlaps {
