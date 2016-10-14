@@ -113,25 +113,6 @@ void start_update_loop(SAPManager2D<int>& sap, float space_size) {
             sap.moveBox(bid, move_vec);
         }
 
-
-//        for (uint32_t bid=0; bid<sap.getBoxesPoolSize(); ++bid) {
-//            SAP::Extent e[2];
-//            if (!sap.tryGetBox(bid, e))
-//                continue;
-//
-//            float dx = randFloatMinMax(min_speed, max_speed)*dt;
-//            float dy = randFloatMinMax(min_speed, max_speed)*dt;
-//            //float dz = ((float)rand()/RAND_MAX)*0.5f;
-//            e[0].min +=dx;
-//            e[0].max +=dx;
-//            e[1].min +=dy;
-//            e[1].max +=dy;
-////            e[2].min +=dz;
-////            e[2].max +=dz;
-//            sap.updateBox(bid, e);
-//            //std::cout << " updated " << bid << std::endl;
-//        }
-
 #ifdef VISUAL_UPDATE
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
@@ -164,16 +145,6 @@ void start_update_loop(SAPManager2D<int>& sap, float space_size) {
 
             m2.incCounter();
             raycast_dt = m2.calcDt();
-//
-//            int rsx = ((b->getMinValue(0)-bounds[0])/range[0])*image_size[0];
-//            int rsy = ((b->getMinValue(1)-bounds[1])/range[1])*image_size[1];
-//            int rex = ((b->getMaxValue(0)-bounds[0])/range[0])*image_size[0];
-//            int rey = ((b->getMaxValue(1)-bounds[1])/range[1])*image_size[1];
-//
-//            uint32_t left = (uint32_t)clampToRange(lefti, 0, int(image_size[0]-1));
-//            uint32_t right = (uint32_t)clampToRange(righti, 0, int(image_size[0]-1));
-//            uint32_t top = (uint32_t)clampToRange(topi, 0, int(image_size[1]-1));
-//            uint32_t bottom = (uint32_t)clampToRange(bottomi, 0, int(image_size[1]-1));
 
         }
         SDL_RenderPresent(renderer);
@@ -187,6 +158,10 @@ void start_update_loop(SAPManager2D<int>& sap, float space_size) {
                                      1 /* simulate infinite loop */);
 #else
     while (!exit) {
+#ifdef FRAMES
+        if (frame_id == FRAMES)
+            break;
+#endif
         main_loop();
     }
 #endif

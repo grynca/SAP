@@ -128,6 +128,6 @@ int main(int argc, char* argv[]) {
 //    circles_test(50000, 5000);
     SAP_test(N_BOXES, SPACE_SIZE, BOXES_SIZE);
 
-    KEY_TO_CONTINUE();
+    WAIT_FOR_KEY_ON_WIN();
     return 0;
 }

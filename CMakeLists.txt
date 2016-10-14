@@ -14,7 +14,7 @@ IF (WIN32)
 
     include_directories(c:/DEV/libs/mingw/glm/)
     include_directories(c:/DEV/gamedev/base/src/)
-    include_directories(c:/DEV/gamedev/maths/src/)
+    include_directories(c:/DEV/gamedev/maths/include/)
     IF (VISUAL_DEBUG)
         include_directories(c:/DEV/gamedev/assets/include/)
         include_directories(c:/DEV/libs/mingw/SDL2-2.0.4/x86/include/)
@@ -26,7 +26,10 @@ IF (WIN32)
     ENDIF()
 ELSE()
     include_directories(/home/grynca/DEV/gamedev/base/src/)
-    include_directories(/home/grynca/DEV/gamedev/maths/src/)
+    include_directories(/home/grynca/DEV/gamedev/maths/include/)
+    include_directories(/home/grynca/DEV/gamedev/assets/include/)
+
+    set(LIBS "-lGLEW -lGL -lGLU -lfreetype -lSDL2 -lSDL2_image")
 ENDIF()
 
 set(INCL_FILES

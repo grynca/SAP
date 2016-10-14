@@ -124,7 +124,7 @@ namespace grynca {
 
         Box* b = getBox_(box_id);
 
-        for (uint32_t i=0; i<b->getOccurencesCount(); ++i) {
+        for (int32_t i = b->getOccurencesCount()-1; i>=0; --i) {
             Segment* seg = b->getOccurence(i).segment_;
             seg->removeBox(b, box_id, b->getOccurence(i).min_max_ids_);
         }
@@ -529,8 +529,10 @@ namespace grynca {
                 ind += "  ";
         }
         std::string ind2 = ind;
-        ind2[ind2.size()-1] = '-';
-        ind2[ind2.size()-2] = '+';
+        if (ind2.size() >= 2) {
+            ind2[ind2.size()-1] = '-';
+            ind2[ind2.size()-2] = '+';
+        }
 
         if (s->split_axis_ >= 0) {
             float low, high;
