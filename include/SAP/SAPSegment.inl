@@ -94,6 +94,7 @@ namespace grynca {
                 dau.merges_.push_back(this);
             }
         }
+        return oos;
     }
 
     SEG_TPL

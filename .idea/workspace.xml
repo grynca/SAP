@@ -11,15 +11,9 @@
     </ADDITIONAL_GENERATION_ENVIRONMENT>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="758026c1-1e2a-48eb-a0b5-07ac05e25259" name="Default" comment="changed to binary tree with segments:&#10;   - segments have lower boxes count inside them vastly improving insert&amp;remove&#10;   - boxes can be crossing into multiple segments (max 4 if box size is always guaranteed to be always lower than segment size)&#10;   - for 99% of boxes that are in only 1 segment update is faster&#10;   - segments do automatic splits and merges when boxes count pass low or high threshold (slow but occurs rarely)&#10; Pair manager for storing overlapping boxes:&#10;   - fast hash table with linear vectors&#10;">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/SAP.iml" afterPath="$PROJECT_DIR$/.idea/SAP.iml" />
+    <list default="true" id="758026c1-1e2a-48eb-a0b5-07ac05e25259" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/SAP/SAPManager.inl" afterPath="$PROJECT_DIR$/include/SAP/SAPManager.inl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/SAP/SAP_config.h" afterPath="$PROJECT_DIR$/include/SAP/SAP_config.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main.cpp" afterPath="$PROJECT_DIR$/src/main.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test_cfg.h" afterPath="$PROJECT_DIR$/src/test_cfg.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/update_loop.cpp" afterPath="$PROJECT_DIR$/src/update_loop.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/SAP/SAPSegment.inl" afterPath="$PROJECT_DIR$/include/SAP/SAPSegment.inl" />
     </list>
     <ignored path="SAP.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -42,11 +36,9 @@
       <file leaf-file-name="SAPManager.inl" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/SAP/SAPManager.inl">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
+            <state relative-caret-position="240">
               <caret line="16" column="26" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
-              <folding>
-                <element signature="e#4511#4522#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -54,7 +46,7 @@
       <file leaf-file-name="SAP_internal.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/SAP/SAP_internal.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
+            <state relative-caret-position="960">
               <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
               <folding />
             </state>
@@ -64,7 +56,7 @@
       <file leaf-file-name="Pool.inl" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../base/src/types/containers/Pool.inl">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="173">
+            <state relative-caret-position="480">
               <caret line="32" column="22" selection-start-line="32" selection-start-column="22" selection-end-line="32" selection-end-column="22" />
               <folding />
             </state>
@@ -84,14 +76,9 @@
       <file leaf-file-name="update_loop.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/update_loop.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
+            <state relative-caret-position="60">
               <caret line="4" column="23" selection-start-line="4" selection-start-column="23" selection-end-line="4" selection-end-column="23" />
-              <folding>
-                <element signature="e#196#363#0" expanded="true" />
-                <element signature="e#1289#1312#0" expanded="true" />
-                <element signature="e#5168#5363#0" expanded="true" />
-                <element signature="e#5412#5454#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -99,8 +86,8 @@
       <file leaf-file-name="test_cfg.h" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/test_cfg.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+            <state relative-caret-position="210">
+              <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -129,7 +116,7 @@
       <file leaf-file-name="SAP_internal.inl" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/SAP/SAP_internal.inl">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
+            <state relative-caret-position="1440">
               <caret line="96" column="17" selection-start-line="96" selection-start-column="17" selection-end-line="96" selection-end-column="17" />
               <folding />
             </state>
@@ -139,7 +126,7 @@
       <file leaf-file-name="SAPSegment.inl" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/SAP/SAPSegment.inl">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="175">
+            <state relative-caret-position="435">
               <caret line="29" column="11" selection-start-line="29" selection-start-column="11" selection-end-line="29" selection-end-column="11" />
               <folding />
             </state>
@@ -232,7 +219,7 @@
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
+    <navigator proportions="" version="1">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -245,11 +232,7 @@
       <manualOrder />
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <subPane />
-      </pane>
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="recentsLimit" value="5" />
@@ -470,7 +453,8 @@
       <workItem from="1469263315361" duration="59223000" />
       <workItem from="1476470822716" duration="1036000" />
       <workItem from="1476471877617" duration="325000" />
-      <workItem from="1476472216415" duration="3129000" />
+      <workItem from="1476472216415" duration="4173000" />
+      <workItem from="1476480972532" duration="4000" />
     </task>
     <task id="LOCAL-00001" summary="minor changes">
       <created>1450057230828</created>
@@ -486,11 +470,18 @@
       <option name="project" value="LOCAL" />
       <updated>1469164626029</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="fixed crash in removing">
+      <created>1476479734803</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1476479734803</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="63713000" />
+    <option name="totallyTimeSpent" value="64761000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -503,26 +494,26 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="-25" width="1368" height="794" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17668621" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13291797" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.100260414" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3291874" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35306334" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3291874" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3291874" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38140556" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.100260414" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35306334" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38140556" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13291797" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -561,7 +552,8 @@
     <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="minor changes" />
     <MESSAGE value="changed to binary tree with segments:&#10;   - segments have lower boxes count inside them vastly improving insert&amp;remove&#10;   - boxes can be crossing into multiple segments (max 4 if box size is always guaranteed to be always lower than segment size)&#10;   - for 99% of boxes that are in only 1 segment update is faster&#10;   - segments do automatic splits and merges when boxes count pass low or high threshold (slow but occurs rarely)&#10; Pair manager for storing overlapping boxes:&#10;   - fast hash table with linear vectors&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed to binary tree with segments:&#10;   - segments have lower boxes count inside them vastly improving insert&amp;remove&#10;   - boxes can be crossing into multiple segments (max 4 if box size is always guaranteed to be always lower than segment size)&#10;   - for 99% of boxes that are in only 1 segment update is faster&#10;   - segments do automatic splits and merges when boxes count pass low or high threshold (slow but occurs rarely)&#10; Pair manager for storing overlapping boxes:&#10;   - fast hash table with linear vectors&#10;" />
+    <MESSAGE value="fixed crash in removing" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed crash in removing" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -726,9 +718,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="57" column="24" selection-start-line="57" selection-start-column="24" selection-end-line="57" selection-end-column="24" />
-          <folding>
-            <element signature="e#0#25#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -751,7 +740,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="390">
           <caret line="26" column="6" selection-start-line="26" selection-start-column="6" selection-end-line="26" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -765,7 +753,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../base/src/types/containers/Pool.inl">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="173">
+        <state relative-caret-position="480">
           <caret line="32" column="22" selection-start-line="32" selection-start-column="22" selection-end-line="32" selection-end-column="22" />
           <folding />
         </state>
@@ -773,7 +761,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/include/SAP/SAP_internal.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
+        <state relative-caret-position="960">
           <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
           <folding />
         </state>
@@ -781,24 +769,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/include/SAP/SAPManager.inl">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
+        <state relative-caret-position="240">
           <caret line="16" column="26" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
-          <folding>
-            <element signature="e#4511#4522#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/update_loop.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
+        <state relative-caret-position="60">
           <caret line="4" column="23" selection-start-line="4" selection-start-column="23" selection-end-line="4" selection-end-column="23" />
-          <folding>
-            <element signature="e#196#363#0" expanded="true" />
-            <element signature="e#1289#1312#0" expanded="true" />
-            <element signature="e#5168#5363#0" expanded="true" />
-            <element signature="e#5412#5454#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -812,7 +793,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/include/SAP/SAPSegment.inl">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
+        <state relative-caret-position="435">
           <caret line="29" column="11" selection-start-line="29" selection-start-column="11" selection-end-line="29" selection-end-column="11" />
           <folding />
         </state>
@@ -820,7 +801,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/include/SAP/SAP_internal.inl">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
+        <state relative-caret-position="1440">
           <caret line="96" column="17" selection-start-line="96" selection-start-column="17" selection-end-line="96" selection-end-column="17" />
           <folding />
         </state>
@@ -836,8 +817,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test_cfg.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+        <state relative-caret-position="210">
+          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
           <folding />
         </state>
       </provider>
