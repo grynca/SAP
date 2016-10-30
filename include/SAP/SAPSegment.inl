@@ -45,7 +45,7 @@ namespace grynca {
     }
 
     SEG_TPL
-    inline bool SEG_TYPE::moveBox(Box* box, uint32_t box_id, SAP::Pair* old_min_max_ids, float* bounds, float* move_vec, typename Manager::DeferredAfterUpdate& dau) {
+    inline bool SEG_TYPE::moveBox(Box* box, uint32_t box_id, SAP::MinMax* old_min_max_ids, float* bounds, float* move_vec, typename Manager::DeferredAfterUpdate& dau) {
         bool oos = false;
 
         for (uint32_t a=0; a<AXES_COUNT; ++a) {
@@ -68,7 +68,7 @@ namespace grynca {
     }
 
     SEG_TPL
-    inline bool SEG_TYPE::updateBox(Box* box, uint32_t box_id, SAP::Pair* old_min_max_ids, float* bounds, typename Manager::DeferredAfterUpdate& dau) {
+    inline bool SEG_TYPE::updateBox(Box* box, uint32_t box_id, SAP::MinMax* old_min_max_ids, float* bounds, typename Manager::DeferredAfterUpdate& dau) {
         bool oos = false;
         for (uint32_t a=0; a<AXES_COUNT; ++a) {
             updateMinMaxPoints_(box, box_id, old_min_max_ids, bounds, a, borders_[a].low, borders_[a].high, dau);
@@ -98,7 +98,7 @@ namespace grynca {
     }
 
     SEG_TPL
-    inline void SEG_TYPE::removeBox(Box* box, uint32_t box_id, SAP::Pair* min_max_ids) {
+    inline void SEG_TYPE::removeBox(Box* box, uint32_t box_id, SAP::MinMax* min_max_ids) {
 
         removeBoxInner_(box, box_id, min_max_ids);
 
@@ -326,7 +326,7 @@ namespace grynca {
     }
 
     SEG_TPL
-    inline void SEG_TYPE::removeBoxInner_(Box* box, uint32_t box_id, SAP::Pair* min_max_ids) {
+    inline void SEG_TYPE::removeBoxInner_(Box* box, uint32_t box_id, SAP::MinMax* min_max_ids) {
         for (uint32_t a=0; a<AXES_COUNT; ++a) {
             uint32_t min_id = min_max_ids[a].v[0];
             uint32_t max_id = min_max_ids[a].v[1];
@@ -502,7 +502,7 @@ namespace grynca {
     }
 
     SEG_TPL
-    inline void SEG_TYPE::moveMinMaxPoints_(Box* box, uint32_t box_id, SAP::Pair* old_min_max_ids, float* bounds, float* move_vec, uint32_t axis, float low, float high, typename Manager::DeferredAfterUpdate& dau) {
+    inline void SEG_TYPE::moveMinMaxPoints_(Box* box, uint32_t box_id, SAP::MinMax* old_min_max_ids, float* bounds, float* move_vec, uint32_t axis, float low, float high, typename Manager::DeferredAfterUpdate& dau) {
         float new_min = GET_MIN(bounds, axis);
         float new_max = GET_MAX(bounds, axis);
 
@@ -535,7 +535,7 @@ namespace grynca {
     }
 
     SEG_TPL
-    inline void SEG_TYPE::updateMinMaxPoints_(Box* box, uint32_t box_id, SAP::Pair* old_min_max_ids, float* bounds, uint32_t axis, float low, float high, typename Manager::DeferredAfterUpdate& dau) {
+    inline void SEG_TYPE::updateMinMaxPoints_(Box* box, uint32_t box_id, SAP::MinMax* old_min_max_ids, float* bounds, uint32_t axis, float low, float high, typename Manager::DeferredAfterUpdate& dau) {
         float new_min = GET_MIN(bounds, axis);
         float new_max = GET_MAX(bounds, axis);
 

@@ -66,7 +66,7 @@ namespace grynca {
             ASSERT(b2_id != new_box_id);
             Box* b2 = getBox_(b2_id);
             if (boxesOverlap_(*new_box, *b2)) {
-                overlaps_.pm.addPair(new_box_id, b2_id);
+                overlaps_.pm.addItem(SAP::CollPair(new_box_id, b2_id));
             }
         }
         overlaps_.possibly_added_.clear();
@@ -105,7 +105,7 @@ namespace grynca {
         typename Box::Occurence& occ = b->getOccurence(0);
         float bounds[AXES_COUNT*2];
         for (uint32_t a=0; a<AXES_COUNT; ++a) {
-            SAP::Pair min_max_id = occ.min_max_ids_[a];
+            SAP::MinMax min_max_id = occ.min_max_ids_[a];
             GET_MIN(bounds, a) = occ.segment_->points_[a][min_max_id.v[0]].getValue() + move_vec[a];
             GET_MAX(bounds, a) = occ.segment_->points_[a][min_max_id.v[1]].getValue() + move_vec[a];
         }
@@ -133,7 +133,7 @@ namespace grynca {
             uint32_t b2_id = overlaps_.removed_[i];
             ASSERT(b2_id != box_id);
             Box* b2 = getBox_(b2_id);
-            overlaps_.pm.removePair(box_id, b2_id);
+            overlaps_.pm.removeItem(SAP::CollPair(box_id, b2_id));
         }
         overlaps_.removed_.clear();
         ASSERT(overlaps_.possibly_added_.empty());
@@ -246,7 +246,7 @@ namespace grynca {
                 Box* b2 = getBox_(b2_id);
                 if (!b2)
                     continue;
-                bool overlaps_in_sap = bool(overlaps_.pm.findPair(b1_id, b2_id));
+                bool overlaps_in_sap = bool(overlaps_.pm.findItem(SAP::CollPair(b1_id, b2_id)));
                 bool overlaps_ground_truth = boxesOverlap_(*b1, *b2);
                 if (overlaps_in_sap != overlaps_ground_truth) {
                     overlaps_ground_truth = boxesOverlap_(*b1, *b2);
@@ -259,12 +259,12 @@ namespace grynca {
 
     SM_TPL
     inline uint32_t SM_TYPE::getOverlapsCount() {
-        return overlaps_.pm.getPairsCount();
+        return overlaps_.pm.getItemsCount();
     }
 
     SM_TPL
     inline void SM_TYPE::getOverlap(uint32_t overlap_id, uint32_t& b1_id_out, uint32_t& b2_id_out) {
-        const PairManager::Pair& p = overlaps_.pm.getPairs()[overlap_id];
+        const SAP::CollPair& p = overlaps_.pm.getItem(overlap_id);
         b1_id_out = p.id1;
         b2_id_out = p.id2;
     }
@@ -592,14 +592,14 @@ namespace grynca {
         for (uint32_t i=0; i<overlaps_.removed_.size(); ++i) {
             uint32_t b2_id = overlaps_.removed_[i];
             ASSERT(b2_id != box_id);
-            overlaps_.pm.removePair(box_id, b2_id);
+            overlaps_.pm.removeItem(SAP::CollPair(box_id, b2_id));
         }
         for (uint32_t i=0; i<overlaps_.possibly_added_.size(); ++i) {
             uint32_t b2_id = overlaps_.possibly_added_[i];
             ASSERT(b2_id != box_id);
             Box* b2 = getBox_(b2_id);
             if (boxesOverlap_(*box, *b2)) {
-                overlaps_.pm.addPair(box_id, b2_id);
+                overlaps_.pm.addItem(SAP::CollPair(box_id, b2_id));
             }
         }
         overlaps_.possibly_added_.clear();

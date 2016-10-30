@@ -3,9 +3,8 @@
 
 #include <stdint.h>
 #include <bitset>
-#include "types/containers/fast_vector.h"
+#include "types/containers/HashSet.h"
 #include "SAP_config.h"
-#include "PairManager.h"
 
 namespace grynca {
 
@@ -35,7 +34,21 @@ namespace grynca {
             float value_;
         };
 
-        struct Pair {
+        struct CollPair {
+            CollPair();
+            CollPair(uint32_t i1, uint32_t i2);
+
+            bool operator==(const CollPair& cp)const;
+
+            uint32_t id1;
+            uint32_t id2;
+
+            struct Hasher {
+                uint32_t operator()(const CollPair& cp)const;
+            };
+        };
+
+        struct MinMax {
             uint32_t& accMin() { return v[0]; }
             uint32_t& accMax() { return v[1]; }
 
@@ -56,7 +69,7 @@ namespace grynca {
         public:
             struct Occurence {
                 Segment* segment_;
-                Pair min_max_ids_[AXES_COUNT];
+                MinMax min_max_ids_[AXES_COUNT];
             };
         public:
             Box_() : occurences_count_(0) {}
@@ -71,7 +84,7 @@ namespace grynca {
             void setEndPointId(Segment* segment, uint32_t a, uint32_t epid, uint32_t min_or_max /* min == 0, max == 1*/);
             uint32_t getMinId(Segment* segment, uint32_t a);
             uint32_t getMaxId(Segment* segment, uint32_t a);
-            void getMinsMaxs(Segment* segment, Pair* mins_maxs_out);
+            void getMinsMaxs(Segment* segment, MinMax* mins_maxs_out);
             float getMinValue(uint32_t a);
             float getMaxValue(uint32_t a);
             void getMinMaxValue(uint32_t a, float& min, float& max);
@@ -93,7 +106,7 @@ namespace grynca {
             fast_vector<uint32_t> possibly_added_;
             fast_vector<uint32_t> removed_;
 
-            PairManager pm;
+            HashSet<CollPair, CollPair::Hasher> pm;
         };
 
         typedef fast_vector<EndPoint> Points;

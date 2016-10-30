@@ -50,6 +50,26 @@ namespace grynca {
             return ep1.getValue()>ep2.getValue();
         }
 
+        inline CollPair::CollPair()
+#ifdef DEBUG_BUILD
+         : id1(InvalidId())
+#endif
+        {}
+
+        inline CollPair::CollPair(uint32_t i1, uint32_t i2)
+         : id1(i1), id2(i2)
+        {
+            if (id1>id2)
+                std::swap(id1, id2);
+        }
+
+        inline bool CollPair::operator==(const CollPair& cp)const {
+            return id1==cp.id1 && id2==cp.id2;
+        }
+
+        inline uint32_t CollPair::Hasher::operator()(const CollPair& cp)const {
+            return calcHash32((cp.id1&0xffff)|(cp.id2<<16));
+        }
 
         BOX_TPL
         inline uint32_t BOX_TYPE::getOccurencesCount() {
@@ -133,10 +153,10 @@ namespace grynca {
         }
 
         BOX_TPL
-        inline void BOX_TYPE::getMinsMaxs(Segment* segment, Pair* mins_maxs_out) {
+        inline void BOX_TYPE::getMinsMaxs(Segment* segment, MinMax* mins_maxs_out) {
             uint32_t id = findOccurence(segment);
             ASSERT_M(id!=InvalidId(), "No such occurence");
-            memcpy(mins_maxs_out, occurences_[id].min_max_ids_, sizeof(Pair)*AXES_COUNT);
+            memcpy(mins_maxs_out, occurences_[id].min_max_ids_, sizeof(MinMax)*AXES_COUNT);
         }
 
         BOX_TPL
@@ -157,7 +177,7 @@ namespace grynca {
         inline void BOX_TYPE::getMinMaxValue(uint32_t a, float& min, float& max) {
             ASSERT(getOccurencesCount() && "Box must have at least 1 occurence");
             Segment* seg = occurences_[0].segment_;
-            Pair min_max_id = occurences_[0].min_max_ids_[a];
+            MinMax min_max_id = occurences_[0].min_max_ids_[a];
             min = seg->points_[a][min_max_id.v[0]].getValue();
             max = seg->points_[a][min_max_id.v[1]].getValue();
         }

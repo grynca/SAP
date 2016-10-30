@@ -22,9 +22,9 @@ namespace grynca {
         void addBox(Box* box, uint32_t box_id, float* bounds);
 
         // returns true if moved out of segment
-        bool moveBox(Box* box, uint32_t box_id, SAP::Pair* old_min_max_ids, float* bounds, float* move_vec, typename Manager::DeferredAfterUpdate& dau);
-        bool updateBox(Box* box, uint32_t box_id, SAP::Pair* old_min_max_ids, float* bounds, typename Manager::DeferredAfterUpdate& dau);
-        void removeBox(Box* box, uint32_t box_id, SAP::Pair* min_max_ids);
+        bool moveBox(Box* box, uint32_t box_id, SAP::MinMax* old_min_max_ids, float* bounds, float* move_vec, typename Manager::DeferredAfterUpdate& dau);
+        bool updateBox(Box* box, uint32_t box_id, SAP::MinMax* old_min_max_ids, float* bounds, typename Manager::DeferredAfterUpdate& dau);
+        void removeBox(Box* box, uint32_t box_id, SAP::MinMax* min_max_ids);
 
 
         Segment* getParent() { return parent_; }
@@ -55,10 +55,10 @@ namespace grynca {
         uint32_t getScanStartId_(uint32_t min_id, uint32_t axis);   // if from where we must scan for overlaps
         void insertSingleAxis_(Box* new_box, uint32_t new_box_id, float min_val, float max_val, uint32_t axis);
         void addBoxInner_(Box* box, uint32_t box_id, float* bounds);
-        void removeBoxInner_(Box* box, uint32_t box_id, SAP::Pair* min_max_ids);
+        void removeBoxInner_(Box* box, uint32_t box_id, SAP::MinMax* min_max_ids);
         SAP::LongestSide findLongestSide_(uint32_t axis);
-        void moveMinMaxPoints_(Box* box, uint32_t box_id, SAP::Pair* old_min_max_ids, float* bounds, float* move_vec, uint32_t axis, float low, float high, typename Manager::DeferredAfterUpdate& dau);
-        void updateMinMaxPoints_(Box* box, uint32_t box_id, SAP::Pair* old_min_max_ids, float* bounds, uint32_t axis, float low, float high, typename Manager::DeferredAfterUpdate& dau);
+        void moveMinMaxPoints_(Box* box, uint32_t box_id, SAP::MinMax* old_min_max_ids, float* bounds, float* move_vec, uint32_t axis, float low, float high, typename Manager::DeferredAfterUpdate& dau);
+        void updateMinMaxPoints_(Box* box, uint32_t box_id, SAP::MinMax* old_min_max_ids, float* bounds, uint32_t axis, float low, float high, typename Manager::DeferredAfterUpdate& dau);
         uint32_t moveMinRight_(uint32_t point_id, float new_value, uint32_t axis);
         uint32_t moveMaxRight_(uint32_t point_id, float new_value, uint32_t axis);
         uint32_t moveMinLeft_(int32_t point_id, float new_value, uint32_t axis);
