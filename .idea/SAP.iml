@@ -22,8 +22,8 @@
     <orderEntry type="module-library">
       <library name="Header Search Paths">
         <CLASSES>
-          <root url="file://C:/MinGW/lib/gcc/mingw32/4.9.3/include" />
-          <root url="file://C:/MinGW/lib/gcc/mingw32/4.9.3/include-fixed" />
+          <root url="file://C:/MinGW/lib/gcc/mingw32/5.3.0/include" />
+          <root url="file://C:/MinGW/lib/gcc/mingw32/5.3.0/include-fixed" />
           <root url="file://C:/MinGW/mingw32/include" />
           <root url="file://C:/MinGW/include" />
           <root url="file://$MODULE_DIR$/../maths/include" />
@@ -34,8 +34,8 @@
           <root url="file://$MODULE_DIR$/../../libs/mingw/glm" />
         </CLASSES>
         <SOURCES>
-          <root url="file://C:/MinGW/lib/gcc/mingw32/4.9.3/include" />
-          <root url="file://C:/MinGW/lib/gcc/mingw32/4.9.3/include-fixed" />
+          <root url="file://C:/MinGW/lib/gcc/mingw32/5.3.0/include" />
+          <root url="file://C:/MinGW/lib/gcc/mingw32/5.3.0/include-fixed" />
           <root url="file://C:/MinGW/mingw32/include" />
           <root url="file://C:/MinGW/include" />
           <root url="file://$MODULE_DIR$/../maths/include" />

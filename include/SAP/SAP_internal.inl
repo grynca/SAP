@@ -1,20 +1,20 @@
 #include "SAP_internal.h"
 #include "SAPSegment.h"
 
-#define BOX_TPL template <typename ClientData, uint32_t AXES_COUNT>
+#define BOX_TPL template <typename ClientData, u32 AXES_COUNT>
 #define BOX_TYPE Box_<ClientData, AXES_COUNT>
 
 namespace grynca {
     namespace SAP {
 
-        inline EndPoint::EndPoint(uint32_t box_id, bool is_max, float value)
+        inline EndPoint::EndPoint(u32 box_id, bool is_max, f32 value)
          : pack_data_(0), value_(value)
         {
             setBoxId(box_id);
             setIsMax(is_max);
         }
 
-        inline uint32_t EndPoint::getIsMax() {
+        inline u32 EndPoint::getIsMax() {
             return (pack_data_>>31)&1;
         }
 
@@ -25,23 +25,23 @@ namespace grynca {
                 pack_data_ &= ~(1<<31);
         }
 
-        inline uint32_t EndPoint::getBoxId() {
+        inline u32 EndPoint::getBoxId() {
             return pack_data_ & ~(1<<31);
         }
 
-        inline void EndPoint::setBoxId(uint32_t bi) {
+        inline void EndPoint::setBoxId(u32 bi) {
             pack_data_ |= bi & ~(1<<31);
         }
 
-        inline float EndPoint::getValue() {
+        inline f32 EndPoint::getValue() {
             return value_;
         }
 
-        inline void EndPoint::setValue(float v) {
+        inline void EndPoint::setValue(f32 v) {
             value_ = v;
         }
 
-        inline uint32_t EndPoint::getPackData() {
+        inline u32 EndPoint::getPackData() {
             return pack_data_;
         }
 
@@ -56,7 +56,7 @@ namespace grynca {
 #endif
         {}
 
-        inline CollPair::CollPair(uint32_t i1, uint32_t i2)
+        inline CollPair::CollPair(u32 i1, u32 i2)
          : id1(i1), id2(i2)
         {
             if (id1>id2)
@@ -67,18 +67,18 @@ namespace grynca {
             return id1==cp.id1 && id2==cp.id2;
         }
 
-        inline uint32_t CollPair::Hasher::operator()(const CollPair& cp)const {
+        inline u32 CollPair::Hasher::operator()(const CollPair& cp)const {
             return calcHash32((cp.id1&0xffff)|(cp.id2<<16));
         }
 
         BOX_TPL
-        inline uint32_t BOX_TYPE::getOccurencesCount() {
+        inline u32 BOX_TYPE::getOccurencesCount() {
             return occurences_count_;
         }
 
         BOX_TPL
-        inline uint32_t BOX_TYPE::findOccurence(Segment* segment) {
-            for (uint32_t i=0; i<getOccurencesCount(); ++i) {
+        inline u32 BOX_TYPE::findOccurence(Segment* segment) {
+            for (u32 i=0; i<getOccurencesCount(); ++i) {
                 if (occurences_[i].segment_ == segment) {
                     return i;
                 }
@@ -87,7 +87,7 @@ namespace grynca {
         }
 
         BOX_TPL
-        inline void BOX_TYPE::removeOccurence(uint32_t id) {
+        inline void BOX_TYPE::removeOccurence(u32 id) {
             ASSERT(getOccurencesCount());
             occurences_[id] = occurences_[occurences_count_-1];
             --occurences_count_;
@@ -95,21 +95,21 @@ namespace grynca {
 
         BOX_TPL
         inline void BOX_TYPE::removeOccurence(Segment* segment) {
-            uint32_t id = findOccurence(segment);
+            u32 id = findOccurence(segment);
             ASSERT_M(id!=InvalidId(), "No such occurence");
             removeOccurence(id);
         }
 
         BOX_TPL
         inline void BOX_TYPE::changeOccurence(Segment* old_seg, Segment* new_seg) {
-            uint32_t id = findOccurence(old_seg);
+            u32 id = findOccurence(old_seg);
             ASSERT_M(id!=InvalidId(), "No such occurence");
             occurences_[id].segment_ = new_seg;
         }
 
         BOX_TPL
-        inline void BOX_TYPE::setMinMaxId(Segment* segment, uint32_t a, uint32_t min_id, uint32_t max_id) {
-            for (uint32_t i=0; i<getOccurencesCount(); ++i) {
+        inline void BOX_TYPE::setMinMaxId(Segment* segment, u32 a, u32 min_id, u32 max_id) {
+            for (u32 i=0; i<getOccurencesCount(); ++i) {
                 if (occurences_[i].segment_ == segment) {
                     occurences_[i].min_max_ids_[a].v[0] = min_id;
                     occurences_[i].min_max_ids_[a].v[1] = max_id;
@@ -124,8 +124,8 @@ namespace grynca {
         }
 
         BOX_TPL
-        inline void BOX_TYPE::setEndPointId(Segment* segment, uint32_t a, uint32_t epid, uint32_t min_or_max) {
-            for (uint32_t i=0; i<getOccurencesCount(); ++i) {
+        inline void BOX_TYPE::setEndPointId(Segment* segment, u32 a, u32 epid, u32 min_or_max) {
+            for (u32 i=0; i<getOccurencesCount(); ++i) {
                 if (occurences_[i].segment_ == segment) {
                     occurences_[i].min_max_ids_[a].v[min_or_max] = epid;
                     return;
@@ -139,42 +139,42 @@ namespace grynca {
         }
 
         BOX_TPL
-        inline uint32_t BOX_TYPE::getMinId(Segment* segment, uint32_t a) {
-            uint32_t id = findOccurence(segment);
+        inline u32 BOX_TYPE::getMinId(Segment* segment, u32 a) {
+            u32 id = findOccurence(segment);
             ASSERT_M(id!=InvalidId(), "No such occurence");
             return occurences_[id].min_max_ids_[a].accMin();
         }
 
         BOX_TPL
-        inline uint32_t BOX_TYPE::getMaxId(Segment* segment, uint32_t a) {
-            uint32_t id = findOccurence(segment);
+        inline u32 BOX_TYPE::getMaxId(Segment* segment, u32 a) {
+            u32 id = findOccurence(segment);
             ASSERT_M(id!=InvalidId(), "No such occurence");
             return occurences_[id].min_max_ids_[a].accMax();
         }
 
         BOX_TPL
         inline void BOX_TYPE::getMinsMaxs(Segment* segment, MinMax* mins_maxs_out) {
-            uint32_t id = findOccurence(segment);
+            u32 id = findOccurence(segment);
             ASSERT_M(id!=InvalidId(), "No such occurence");
             memcpy(mins_maxs_out, occurences_[id].min_max_ids_, sizeof(MinMax)*AXES_COUNT);
         }
 
         BOX_TPL
-        inline float BOX_TYPE::getMinValue(uint32_t a) {
+        inline f32 BOX_TYPE::getMinValue(u32 a) {
             ASSERT(getOccurencesCount() && "Box must have at least 1 occurence");
             Segment* seg = occurences_[0].segment_;
             return seg->points_[a][occurences_[0].min_max_ids_[a].accMin()].getValue();
         }
 
         BOX_TPL
-        inline float BOX_TYPE::getMaxValue(uint32_t a) {
+        inline f32 BOX_TYPE::getMaxValue(u32 a) {
             ASSERT(getOccurencesCount() && "Box must have at least 1 occurence");
             Segment* seg = occurences_[0].segment_;
             return seg->points_[a][occurences_[0].min_max_ids_[a].accMax()].getValue();
         }
 
         BOX_TPL
-        inline void BOX_TYPE::getMinMaxValue(uint32_t a, float& min, float& max) {
+        inline void BOX_TYPE::getMinMaxValue(u32 a, f32& min, f32& max) {
             ASSERT(getOccurencesCount() && "Box must have at least 1 occurence");
             Segment* seg = occurences_[0].segment_;
             MinMax min_max_id = occurences_[0].min_max_ids_[a];

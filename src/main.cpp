@@ -9,34 +9,34 @@
 using namespace std;
 using namespace grynca;
 
-void circles_test(uint32_t n, uint32_t size) {
+void circles_test(u32 n, u32 size) {
 
     std::cout << "Circles(" << n << "):" << std::endl;
     Array<Circle> circles;
     circles.reserve(n);
     {
         BlockMeasure m(" creation");
-        for (uint32_t i=0; i<n; ++i) {
-            float x  = ((float)rand()/RAND_MAX)*size;
-            float y = ((float)rand()/RAND_MAX)*size;
-            float r = ((float)rand()/RAND_MAX)*5 + 0.1f;
+        for (u32 i=0; i<n; ++i) {
+            f32 x  = ((f32)rand()/RAND_MAX)*size;
+            f32 y = ((f32)rand()/RAND_MAX)*size;
+            f32 r = ((f32)rand()/RAND_MAX)*5 + 0.1f;
             circles.add(Vec2{x, y}, r);
         }
     }
 
-    uint32_t overlaps = 0;
+    u32 overlaps = 0;
     {
         BlockMeasure m(" update + collide");
-        for (uint32_t i=0; i<n; ++i) {
-            float dx  = ((float)rand()/RAND_MAX)*0.5f;
-            float dy = ((float)rand()/RAND_MAX)*0.5f;
+        for (u32 i=0; i<n; ++i) {
+            f32 dx  = ((f32)rand()/RAND_MAX)*0.5f;
+            f32 dy = ((f32)rand()/RAND_MAX)*0.5f;
             Circle* c = circles.getAtPos(i);
             c->setCenter(c->getCenter()+Vec2{dx, dy});
         }
 
-        for (uint32_t i=0; i<n; ++i) {
+        for (u32 i=0; i<n; ++i) {
             Circle* c1 = circles.getAtPos(i);
-            for (uint32_t j=i+1; j<n; ++j) {
+            for (u32 j=i+1; j<n; ++j) {
                 Circle* c2 = circles.getAtPos(j);
                 if (c1->overlaps(*c2))
                     ++overlaps;
@@ -50,27 +50,27 @@ void circles_test(uint32_t n, uint32_t size) {
     randomPickN(destruction_order, n, n);
     {
         grynca::BlockMeasure m(" removal");
-        for (uint32_t i=0; i<destruction_order.size(); ++i) {
-            uint32_t circle_id = destruction_order[i];
+        for (u32 i=0; i<destruction_order.size(); ++i) {
+            u32 circle_id = destruction_order[i];
             circles.removeAtPos(circle_id);
         }
     }
 }
 
-void SAP_test(uint32_t n, float space_size, float box_size_max) {
+void SAP_test(u32 n, f32 space_size, f32 box_size_max) {
     std::cout << "SAP("<< n << "): " << std::endl;
     SAPManager2D<int> sap;
 
-    fast_vector<uint32_t> box_ids;
+    fast_vector<u32> box_ids;
     {
         grynca::BlockMeasure m(" creation");
         box_ids.reserve(n);
-        float bounds[6];
-        for (uint32_t i=0; i< n; ++i) {
-            bounds[0] = ((float)rand()/RAND_MAX)*space_size;
-            bounds[1] = ((float)rand()/RAND_MAX)*space_size;
-            bounds[2] = bounds[0] + ((float)rand()/RAND_MAX)*box_size_max + 0.1f;
-            bounds[3] = bounds[1] + ((float)rand()/RAND_MAX)*box_size_max + 0.1f;
+        f32 bounds[6];
+        for (u32 i=0; i< n; ++i) {
+            bounds[0] = ((f32)rand()/RAND_MAX)*space_size;
+            bounds[1] = ((f32)rand()/RAND_MAX)*space_size;
+            bounds[2] = bounds[0] + ((f32)rand()/RAND_MAX)*box_size_max + 0.1f;
+            bounds[3] = bounds[1] + ((f32)rand()/RAND_MAX)*box_size_max + 0.1f;
             //std::cout << "adding box: [" << e[0].min << ", " << e[1].min<< "], [" << e[0].max << ", " << e[1].max << "]" << std::endl;
 
             box_ids.push_back(sap.addBox(bounds, i));
@@ -88,11 +88,11 @@ void SAP_test(uint32_t n, float space_size, float box_size_max) {
     {
         grynca::BlockMeasure m(" Ray Cast");
         auto rc = sap.getRayCaster();
-        float ro[2] = {4000, 4000};
-        float rd[2] = {3, 1};
+        f32 ro[2] = {4000, 4000};
+        f32 rd[2] = {3, 1};
         rc.setRay(ro , rd);
-        uint32_t overlaps_cnt = 0;
-        rc.getHits([&overlaps_cnt](uint32_t bid, float t) {
+        u32 overlaps_cnt = 0;
+        rc.getHits([&overlaps_cnt](u32 bid, f32 t) {
             ++overlaps_cnt;
             return true;
         });
@@ -106,8 +106,8 @@ void SAP_test(uint32_t n, float space_size, float box_size_max) {
     randomPickN(destruction_order, n, n);
     {
         grynca::BlockMeasure m(" removal");
-        for (uint32_t i=0; i<destruction_order.size(); ++i) {
-            uint32_t box_id = box_ids[destruction_order[i]];
+        for (u32 i=0; i<destruction_order.size(); ++i) {
+            u32 box_id = box_ids[destruction_order[i]];
             sap.removeBox(box_id);
         }
     }
