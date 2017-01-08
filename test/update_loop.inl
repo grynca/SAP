@@ -17,50 +17,41 @@ using namespace grynca;
     }
 #endif
 
-void start_update_loop(SAPManager2D<int>& sap, float space_size) {
+void start_update_loop(SAPManager2D<int>& sap, f32 space_size) {
 #ifdef VISUAL_UPDATE
     SDL_Window *win = SDL_CreateWindow("SAP Updating", 100, 100, WIDTH, HEIGHT, 0);
     SDL_Renderer *renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
 
-    SDL_Rect texr;
-    texr.x = 0; texr.y = 0; texr.w = WIDTH; texr.h = HEIGHT;
-
     bool mouse_down = false;
     int ray_start_x = 0, ray_start_y = 0;
     int ray_end_x = 0, ray_end_y = 0;
-    uint32_t ray_overlaps = 0;
-    float raycast_dt = 0.0f;
+    u32 ray_overlaps = 0;
     bool all_ray_hits = true;
 #endif
-    float min_speed = space_size*(float)SPEED_MIN;
+    f32 min_speed = space_size*(f32)SPEED_MIN;
     min_speed *= randFloat()*2 - 1;
-    float max_speed = space_size*(float)SPEED_MAX;
+    f32 max_speed = space_size*(f32)SPEED_MAX;
     max_speed *= randFloat()*2 - 1;
 
     // main loop
     bool exit = false;
-    uint32_t frame_id = 0;
-    grynca::Measure m("update");
+    u32 frame_id = 0;
+    Measure m_update, m_raycast;
 
+    float dt = 0.0f;
     std::function<void()> main_loop = [&]() {
-        m.incCounter();
-#ifdef CONSTANT_DT
-        float dt = CONSTANT_DT;
-#else
-        float dt = m.calcDt();
-#endif
-        if (m.getCounter() == 50) {
-            m.print();
+        m_update.from();
+        if ((frame_id+1)%50 == 0) {
+            m_update.print("Update");
             std::cout << " overlapping boxes:: " << sap.getOverlapsCount() << std::endl;
             if ((ray_end_x-ray_start_x)!=0 || (ray_end_y-ray_start_y)!=0) {
-                std::cout << " raycast : " << raycast_dt << "sec (overlaps: " << ray_overlaps << ")" << std::endl;
+                std::cout << " raycast : " << m_raycast.calcAvgDt() << "sec (overlaps: " << ray_overlaps << ")" << std::endl;
             }
-            m.reset();
         }
 
 #ifdef VISUAL_UPDATE
         SDL_Event evt;
-        if ( SDL_PollEvent(&evt) ) {
+        while (SDL_PollEvent(&evt) ) {
             switch (evt.type) {
                 case (SDL_QUIT): {
                     exit = true;
@@ -105,9 +96,9 @@ void start_update_loop(SAPManager2D<int>& sap, float space_size) {
         }
 #endif
 
-        for (uint32_t bid=0; bid<sap.getBoxesPoolSize(); ++bid) {
+        for (u32 bid=0; bid<sap.getBoxesCount(); ++bid) {
 
-            float move_vec[2];
+            f32 move_vec[2];
             move_vec[0] = randFloatMinMax(min_speed, max_speed)*dt;
             move_vec[1] = randFloatMinMax(min_speed, max_speed)*dt;
             sap.moveBox(bid, move_vec);
@@ -123,33 +114,37 @@ void start_update_loop(SAPManager2D<int>& sap, float space_size) {
             SDL_RenderDrawLine(renderer, ray_start_x, ray_start_y, ray_end_x, ray_end_y);
 
 
-            float bounds[2*2];
+            f32 bounds[2*2];
             sap.calcBounds(bounds);
-            float range[2] = {bounds[2] - bounds[0], bounds[2+1] - bounds[1]};
+            f32 range[2] = {bounds[2] - bounds[0], bounds[2+1] - bounds[1]};
 
             // convert ray to world coords
-            float sx = range[0]/WIDTH;
-            float sy = range[1]/HEIGHT;
+            f32 sx = range[0]/WIDTH;
+            f32 sy = range[1]/HEIGHT;
 
-            float ray_start[2] = {ray_start_x*sx +bounds[0], ray_start_y*sy +bounds[1]};
-            float ray_end[2] = {ray_end_x*sx +bounds[0], ray_end_y*sy +bounds[1]};
-            float ray_dir[2] = {ray_end[0]-ray_start[0], ray_end[1]-ray_start[1]};
+            f32 ray_start[2] = {ray_start_x*sx +bounds[0], ray_start_y*sy +bounds[1]};
+            f32 ray_end[2] = {ray_end_x*sx +bounds[0], ray_end_y*sy +bounds[1]};
+            f32 ray_dir[2] = {ray_end[0]-ray_start[0], ray_end[1]-ray_start[1]};
 
-            grynca::Measure m2("raycast");
+            m_raycast.from();
             auto rc = sap.getRayCaster();
             rc.setRay(ray_start , ray_dir);
-            rc.getHits([&ray_overlaps, &all_ray_hits](uint32_t bid, float t) {
+            rc.getHits([&ray_overlaps, &all_ray_hits](u32 bid, f32 t) {
                 ++ray_overlaps;
                 return all_ray_hits;
             });
 
-            m2.incCounter();
-            raycast_dt = m2.calcDt();
-
+            m_raycast.to();
         }
         SDL_RenderPresent(renderer);
 #endif
         ++frame_id;
+        m_update.to();
+#ifdef CONSTANT_DT
+        dt = CONSTANT_DT;
+#else
+        dt = m_update.calcAvgDt();
+#endif
     };
 
 #ifdef WEB

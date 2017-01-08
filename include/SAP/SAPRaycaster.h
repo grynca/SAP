@@ -7,39 +7,39 @@
 namespace grynca {
 
     //fw
-    template <typename CD, uint32_t AC> class SAPManager;
+    template <typename CD, u32 AC> class SAPManager;
 
-    template <typename ClientData, uint32_t AXES_COUNT>
+    template <typename ClientData, u32 AXES_COUNT>
     class SAPRaycaster {
         typedef SAPSegment<ClientData, AXES_COUNT> Segment;
         typedef SAPManager<ClientData, AXES_COUNT> Manager;
     public:
-        typedef std::function<bool(uint32_t/*box_id*/, float /*dt*/)> HitCallback;
+        typedef std::function<bool(u32/*box_id*/, f32 /*dt*/)> HitCallback;
 
         // dir is not normalized
-        void setRay(float* origin, float* dir);
+        void setRay(f32* origin, f32* dir);
 
         // cb returns false if no more hits are desired
         void getHits(const HitCallback& cb);
 
     private:
-        template <typename, uint32_t> friend class SAPManager;
+        template <typename, u32> friend class SAPManager;
 
         SAPRaycaster(Manager& mgr);
-        bool overlapBox_(float* bounds, float& t_out);
-        bool overlapSegment_(Segment* seg, float& t_out);
+        bool overlapBox_(f32* bounds, f32& t_out);
+        bool overlapSegment_(Segment* seg, f32& t_out);
         bool getHitsRec_(const HitCallback& cb, Segment* seg);
 
         struct Ray {
-            float origin[AXES_COUNT];
-            float dir[AXES_COUNT];
-            float inv_dir[AXES_COUNT];
-            uint8_t dir_sgn[AXES_COUNT];
+            f32 origin[AXES_COUNT];
+            f32 dir[AXES_COUNT];
+            f32 inv_dir[AXES_COUNT];
+            u8 dir_sgn[AXES_COUNT];
         };
 
         struct BoxOp {
-            uint32_t box_id;
-            float t;
+            u32 box_id;
+            f32 t;
 
 
             static bool compare(BoxOp& b1, BoxOp& b2) {
@@ -50,7 +50,7 @@ namespace grynca {
         Manager* mgr_;
         Ray ray_;
         fast_vector<BoxOp> overlaps_in_curr_seg_;
-        uint32_t prev_box_;
+        u32 prev_box_;
     };
 
 }
