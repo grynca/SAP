@@ -103,7 +103,7 @@
   </head>
   <body>
     <a href="http://emscripten.org">
-      <?xml version="1.0" encoding="UTF-8" standalone="no"?><svg
+      <svg
    version="1.1"
    id="Layer_1"
    x="0px"
@@ -1304,10 +1304,10 @@
             } else if (Module['memoryInitializerPrefixURL']) {
               memoryInitializer = Module['memoryInitializerPrefixURL'] + memoryInitializer;
             }
-            var xhr = Module['memoryInitializerRequest'] = new XMLHttpRequest();
-            xhr.open('GET', memoryInitializer, true);
-            xhr.responseType = 'arraybuffer';
-            xhr.send(null);
+            var meminitXHR = Module['memoryInitializerRequest'] = new XMLHttpRequest();
+            meminitXHR.open('GET', memoryInitializer, true);
+            meminitXHR.responseType = 'arraybuffer';
+            meminitXHR.send(null);
           })();
 
           var script = document.createElement('script');

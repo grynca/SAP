@@ -352,7 +352,7 @@ namespace grynca {
         return ss2.str();
     }
 
-#ifdef VISUAL_DEBUG
+#ifdef USE_SDL2
     SM_TPL
     inline Image::Ref SM_TYPE::debugImage() {
         ASSERT_M(AXES_COUNT == 2, "Can only visualize 2D");

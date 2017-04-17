@@ -110,7 +110,7 @@ namespace grynca {
 
     SEG_TPL
     inline typename SEG_TYPE::Segment* SEG_TYPE::getChild(u32 id) {
-        assert(id < 2);
+        ASSERT(id < 2);
         return children_[id];
     }
 
@@ -587,7 +587,7 @@ namespace grynca {
 
     SEG_TPL
     inline void SEG_TYPE::split_() {
-        assert(!isSplit());
+        ASSERT(!isSplit());
 
         u32 boxes_count = getBoxesCount();
 

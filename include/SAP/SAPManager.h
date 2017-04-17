@@ -6,7 +6,7 @@
 #include <vector>
 #include "SAPSegment.h"
 #include "SAPRaycaster.h"
-#ifdef VISUAL_DEBUG
+#ifdef USE_SDL2
 #   include "assets/Image.h"
 #endif
 
@@ -45,7 +45,7 @@ namespace grynca {
         // for debug
         void validate();
         std::string debugPrint();
-#ifdef VISUAL_DEBUG
+#ifdef USE_SDL2
         Image::Ref debugImage();
         void debugRender(SDL_Window* w, SDL_Renderer* r);
 #endif
