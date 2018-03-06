@@ -1,16 +1,16 @@
 #include "SAP_internal.h"
 #include "SAPSegment.h"
 
-#define BOX_TPL template <typename ClientData, u32 AXES_COUNT>
-#define BOX_TYPE Box_<ClientData, AXES_COUNT>
+#define BOX_TPL template <typename SAPDomain>
+#define BOX_TYPE SAPBox<SAPDomain>
 
 namespace grynca {
     namespace SAP {
 
         inline EndPoint::EndPoint(u32 box_id, bool is_max, f32 value)
-         : pack_data_(0), value_(value)
+         : pack_data_(box_id), value_(value)
         {
-            setBoxId(box_id);
+            ASSERT(box_id < (1<<31));
             setIsMax(is_max);
         }
 
@@ -19,18 +19,11 @@ namespace grynca {
         }
 
         inline void EndPoint::setIsMax(bool v) {
-            if (v)
-                pack_data_ |= 1<<31;
-            else
-                pack_data_ &= ~(1<<31);
+            pack_data_ = SET_BITV(pack_data_, 31, v);
         }
 
         inline u32 EndPoint::getBoxId() {
             return pack_data_ & ~(1<<31);
-        }
-
-        inline void EndPoint::setBoxId(u32 bi) {
-            pack_data_ |= bi & ~(1<<31);
         }
 
         inline f32 EndPoint::getValue() {
@@ -68,12 +61,50 @@ namespace grynca {
         }
 
         inline u32 CollPair::Hasher::operator()(const CollPair& cp)const {
-            return calcHash32((cp.id1&0xffff)|(cp.id2<<16));
+            return calcHash32(cp.id);
+        }
+
+        BOX_TPL
+        inline BOX_TYPE::SAPBox() : occurences_count_(0) {}
+
+        BOX_TPL
+        inline void BOX_TYPE::setClientData(const BoxDataT& cd) {
+            client_data_ = cd;
+        }
+
+        BOX_TPL
+        inline const typename BOX_TYPE::BoxDataT& BOX_TYPE::getClientData()const {
+            return client_data_;
+        }
+
+        BOX_TPL
+        inline typename BOX_TYPE::BoxDataT& BOX_TYPE::accClientData() {
+            return client_data_;
+        }
+
+        BOX_TPL
+        inline const f32* BOX_TYPE::getBounds()const {
+            return bounds_;
+        }
+
+        BOX_TPL
+        inline f32 BOX_TYPE::getMinValue(u32 a) {
+            return bounds_[a];
+        }
+
+        BOX_TPL
+        inline f32 BOX_TYPE::getMaxValue(u32 a) {
+            return bounds_[AXES_COUNT+a];
         }
 
         BOX_TPL
         inline u32 BOX_TYPE::getOccurencesCount() {
             return occurences_count_;
+        }
+
+        BOX_TPL
+        inline typename BOX_TYPE::Occurence& BOX_TYPE::getOccurence(u32 id) {
+            return occurences_[id];
         }
 
         BOX_TPL
@@ -159,38 +190,6 @@ namespace grynca {
             memcpy(mins_maxs_out, occurences_[id].min_max_ids_, sizeof(MinMax)*AXES_COUNT);
         }
 
-        BOX_TPL
-        inline f32 BOX_TYPE::getMinValue(u32 a) {
-            ASSERT(getOccurencesCount() && "Box must have at least 1 occurence");
-            Segment* seg = occurences_[0].segment_;
-            return seg->points_[a][occurences_[0].min_max_ids_[a].accMin()].getValue();
-        }
-
-        BOX_TPL
-        inline f32 BOX_TYPE::getMaxValue(u32 a) {
-            ASSERT(getOccurencesCount() && "Box must have at least 1 occurence");
-            Segment* seg = occurences_[0].segment_;
-            return seg->points_[a][occurences_[0].min_max_ids_[a].accMax()].getValue();
-        }
-
-        BOX_TPL
-        inline void BOX_TYPE::getMinMaxValue(u32 a, f32& min, f32& max) {
-            ASSERT(getOccurencesCount() && "Box must have at least 1 occurence");
-            Segment* seg = occurences_[0].segment_;
-            MinMax min_max_id = occurences_[0].min_max_ids_[a];
-            min = seg->points_[a][min_max_id.v[0]].getValue();
-            max = seg->points_[a][min_max_id.v[1]].getValue();
-        }
-
-        BOX_TPL
-        inline void BOX_TYPE::setClientData(const ClientData& cd) {
-            client_data_ = cd;
-        }
-
-        BOX_TPL
-        inline ClientData& BOX_TYPE::getClientData() {
-            return client_data_;
-        }
     }
 }
 

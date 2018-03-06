@@ -3,17 +3,17 @@
 
 #include <stdint.h>
 
-//#define VALIDATE_ALL_THE_TIME
-//#define VALIDATE_OVERLAPS
+//#define SAP_VALIDATE_ALL_THE_TIME
+//#define SAP_VALIDATE_OVERLAPS
 
 namespace grynca{
 
     namespace SAP {
         static const u32 MAX_BOXES_IN_SEGMENT = 100;
-        static const u32 MIN_BOXES_IN_SEGMENT = 10;
-        static const f32 CROSSED_SPLIT_PENALTY_COEF = 2.0f;
+        static const u32 MIN_BOXES_IN_SEGMENT = 20;
+        static const f32 CROSSED_SPLIT_PENALTY_COEF = 20.0f;
         static const u32 PM_INITIAL_SIZE = 1024;   // must be 2^x
-        static const u32 MAX_BOX_OCCURENCES = 4;
+        static const u32 MAX_BOX_OCCURENCES = 8;
     }
 
 }

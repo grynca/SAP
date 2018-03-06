@@ -1,33 +1,31 @@
 #ifndef SAPRAYCASTER_H
 #define SAPRAYCASTER_H
 
-#include <stdint.h>
+#include "SAP_internal.h"
 #include <functional>
 
 namespace grynca {
 
-    //fw
-    template <typename CD, u32 AC> class SAPManager;
-
-    template <typename ClientData, u32 AXES_COUNT>
+    template <typename SAPDomain>
     class SAPRaycaster {
-        typedef SAPSegment<ClientData, AXES_COUNT> Segment;
-        typedef SAPManager<ClientData, AXES_COUNT> Manager;
     public:
-        typedef std::function<bool(u32/*box_id*/, f32 /*dt*/)> HitCallback;
+        SAP_DOMAIN_TYPES(SAPDomain);
 
         // dir is not normalized
         void setRay(f32* origin, f32* dir);
 
         // cb returns false if no more hits are desired
+        // bool cb(u32 box_id, f32 dt)
+        template <typename HitCallback>
         void getHits(const HitCallback& cb);
 
     private:
-        template <typename, u32> friend class SAPManager;
+        friend Manager;
 
-        SAPRaycaster(Manager& mgr);
-        bool overlapBox_(f32* bounds, f32& t_out);
-        bool overlapSegment_(Segment* seg, f32& t_out);
+        SAPRaycaster(const Manager& mgr);
+        bool overlapBox_(const f32* bounds, f32& t_out)const;
+        bool overlapSegment_(Segment* seg, f32& t_out)const;
+        template <typename HitCallback>
         bool getHitsRec_(const HitCallback& cb, Segment* seg);
 
         struct Ray {
@@ -47,7 +45,7 @@ namespace grynca {
             }
         };
 
-        Manager* mgr_;
+        const Manager* mgr_;
         Ray ray_;
         fast_vector<BoxOp> overlaps_in_curr_seg_;
         u32 prev_box_;

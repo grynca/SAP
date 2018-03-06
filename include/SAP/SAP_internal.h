@@ -3,13 +3,11 @@
 
 #include <stdint.h>
 #include <bitset>
-#include "types/containers/HashSet.h"
+#include "types/containers/HashMap.h"
 #include "SAP_config.h"
+#include "SAP_domain.h"
 
 namespace grynca {
-
-    // fw
-    template <typename, u32> class SAPSegment;
 
     namespace SAP {
 
@@ -23,7 +21,6 @@ namespace grynca {
             void setIsMax(bool v);
 
             u32 getBoxId();
-            void setBoxId(u32 bi);
 
             f32 getValue();
             void setValue(f32 v);
@@ -42,11 +39,16 @@ namespace grynca {
 
             bool operator==(const CollPair& cp)const;
 
-            u32 id1;
-            u32 id2;
-
             struct Hasher {
                 u32 operator()(const CollPair& cp)const;
+            };
+
+            union {
+                struct {
+                    u32 id1;
+                    u32 id2;
+                };
+                u64 id;
             };
         };
 
@@ -65,19 +67,31 @@ namespace grynca {
             f32 length;
         };
 
-        template <typename ClientData, u32 AXES_COUNT>
-        class Box_ {
-            typedef SAPSegment<ClientData, AXES_COUNT> Segment;
+        template <typename SAPDomain>
+        class SAPBox {
         public:
+            SAP_DOMAIN_TYPES(SAPDomain);
+
+            SAPBox();
+
+            void setClientData(const BoxDataT& cd);
+            const BoxDataT& getClientData()const;
+            BoxDataT& accClientData();
+
+            const f32* getBounds()const;
+            f32 getMinValue(u32 a);
+            f32 getMaxValue(u32 a);
+        protected:
+            friend Segment;
+            friend Manager;
+
             struct Occurence {
                 Segment* segment_;
                 MinMax min_max_ids_[AXES_COUNT];
             };
-        public:
-            Box_() : occurences_count_(0) {}
 
             u32 getOccurencesCount();
-            Occurence& getOccurence(u32 id) { return occurences_[id]; }
+            Occurence& getOccurence(u32 id);
             u32 findOccurence(Segment* segment);
             void removeOccurence(u32 id);
             void removeOccurence(Segment* segment);
@@ -87,20 +101,14 @@ namespace grynca {
             u32 getMinId(Segment* segment, u32 a);
             u32 getMaxId(Segment* segment, u32 a);
             void getMinsMaxs(Segment* segment, MinMax* mins_maxs_out);
-            f32 getMinValue(u32 a);
-            f32 getMaxValue(u32 a);
-            void getMinMaxValue(u32 a, f32& min, f32& max);
-            void setClientData(const ClientData& cd);
-            ClientData& getClientData();
-        private:
-            template <typename, u32> friend class SAPManager;
-            template <typename, u32> friend class SAPSegment;
 
-            ClientData client_data_;
+            f32 bounds_[2*AXES_COUNT];
+            BoxDataT client_data_;
             Occurence occurences_[SAP::MAX_BOX_OCCURENCES];
             u32 occurences_count_;
         };
 
+        template <typename ClientDataCollision>
         struct Overlaps {
             Overlaps() : pm(PM_INITIAL_SIZE) {}
 
@@ -108,7 +116,7 @@ namespace grynca {
             fast_vector<u32> possibly_added_;
             fast_vector<u32> removed_;
 
-            HashSet<CollPair, CollPair::Hasher> pm;
+            HashMap<ClientDataCollision, CollPair, CollPair::Hasher> pm;
         };
 
         typedef fast_vector<EndPoint> Points;

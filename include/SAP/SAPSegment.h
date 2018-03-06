@@ -6,25 +6,20 @@
 
 namespace grynca {
 
-    // fw
-    template <typename, u32> class SAPManager;
-    template <typename, u32> class SAPRaycaster;
-
-    template <typename ClientData, u32 AXES_COUNT>
+    template <typename SAPDomain>
     class SAPSegment {
-        typedef SAPManager<ClientData, AXES_COUNT> Manager;
-        typedef SAP::Box_<ClientData, AXES_COUNT> Box;
-        typedef SAPSegment<ClientData, AXES_COUNT> Segment;
     public:
+        SAP_DOMAIN_TYPES(SAPDomain);
+
         SAPSegment(Manager& mgr, Segment* parent);
         ~SAPSegment();
 
-        void addBox(Box* box, u32 box_id, f32* bounds);
+        void addBox(Box& box, Index box_id);
 
         // returns true if moved out of segment
-        bool moveBox(Box* box, u32 box_id, SAP::MinMax* old_min_max_ids, f32* bounds, f32* move_vec, typename Manager::DeferredAfterUpdate& dau);
-        bool updateBox(Box* box, u32 box_id, SAP::MinMax* old_min_max_ids, f32* bounds, typename Manager::DeferredAfterUpdate& dau);
-        void removeBox(Box* box, u32 box_id, SAP::MinMax* min_max_ids);
+        bool moveBox(Box& box, Index box_id, SAP::MinMax* old_min_max_ids, f32* move_vec, typename Manager::DeferredAfterUpdate& dau);
+        bool updateBox(Box& box, Index box_id, SAP::MinMax* old_min_max_ids, typename Manager::DeferredAfterUpdate& dau);
+        void removeBox(Box& box, Index box_id, SAP::MinMax* min_max_ids);
 
 
         Segment* getParent() { return parent_; }
@@ -46,19 +41,21 @@ namespace grynca {
         void getCrossedBoxes(fast_vector<u32>& crossed_out);
         std::string getDebugName();
     private:
-        template <typename, u32> friend class SAPManager;
-        template <typename, u32> friend class SAP::Box_;
-        template <typename, u32> friend class SAPRaycaster;
+        friend Box;
+        friend Raycaster;
+        friend Manager;
 
+        template <typename AddedCb>
+        void addBoxTree_(const f32* bounds, const AddedCb& cb);
         u32 bisectInsertFind_(SAP::Points& points, f32 val, u32 from, u32 to);
-        void findOverlapsOnAxis_(Box* box, u32 axis);
+        void findOverlapsOnAxis_(Box& box, u32 axis);
         u32 getScanStartId_(u32 min_id, u32 axis);   // if from where we must scan for overlaps
-        void insertSingleAxis_(Box* new_box, u32 new_box_id, f32 min_val, f32 max_val, u32 axis);
-        void addBoxInner_(Box* box, u32 box_id, f32* bounds);
-        void removeBoxInner_(Box* box, u32 box_id, SAP::MinMax* min_max_ids);
+        void insertSingleAxis_(Box& new_box, u32 new_box_inner_id, u32 axis);
+        void addBoxInner_(Box& box, u32 box_inner_id);
+        void removeBoxInner_(Box& box, Index box_id, SAP::MinMax* min_max_ids);
         SAP::LongestSide findLongestSide_(u32 axis);
-        void moveMinMaxPoints_(Box* box, u32 box_id, SAP::MinMax* old_min_max_ids, f32* bounds, f32* move_vec, u32 axis, f32 low, f32 high, typename Manager::DeferredAfterUpdate& dau);
-        void updateMinMaxPoints_(Box* box, u32 box_id, SAP::MinMax* old_min_max_ids, f32* bounds, u32 axis, f32 low, f32 high, typename Manager::DeferredAfterUpdate& dau);
+        void moveMinMaxPoints_(Box& box, Index box_id, SAP::MinMax* old_min_max_ids, f32* move_vec, u32 axis, f32 low, f32 high, bool& crossing_out, bool& oos_out);
+        void updateMinMaxPoints_(Box& box, Index box_id, SAP::MinMax* old_min_max_ids, u32 axis, f32 low, f32 high, bool& crossing_out);
         u32 moveMinRight_(u32 point_id, f32 new_value, u32 axis);
         u32 moveMaxRight_(u32 point_id, f32 new_value, u32 axis);
         u32 moveMinLeft_(i32 point_id, f32 new_value, u32 axis);
@@ -67,10 +64,6 @@ namespace grynca {
         void merge_(Segment* removed_child);
         void pointToChild_(Segment* child, u32 a, u32 point_id);
         void setDebugName_();
-        void getPrevOverlappingLeafsRec_(u32 axis, f32* bounds, Segment* seg, fast_vector<Segment*>& leafs_out);
-        void getNextOverlappingLeafsRec_(u32 axis, f32* bounds, Segment* seg, fast_vector<Segment*>& leafs_out);
-        void startCrossingLow_(f32* bounds, u32 axis, typename Manager::DeferredAfterUpdate& dau);
-        void startCrossingHigh_(f32* bounds, u32 axis, typename Manager::DeferredAfterUpdate& dau);
         void calcBorders_();
         bool calcLowBorder_(u32 axis, f32& val);
         bool calcHighBorder_(u32 axis, f32& val);
@@ -90,7 +83,7 @@ namespace grynca {
         SAP::Points points_[AXES_COUNT];       // sorted from low to high
         SAP::LongestSide longest_sides_[AXES_COUNT];
 
-        SAPSegment<ClientData, AXES_COUNT>* children_[2];
+        SAPSegment<SAPDomain>* children_[2];
 
         struct {
             f32 low;

@@ -1,10 +1,10 @@
 #include "SAPRaycaster.h"
-#include "SAPManager.h"
+#include "SAPManagerC.h"
 #include <cstring>
 #include "base.h"
 
-#define SRC_TPL template <typename ClientData, u32 AXES_COUNT>
-#define SRC_TYPE SAPRaycaster<ClientData, AXES_COUNT>
+#define SRC_TPL template <typename SAPDomain>
+#define SRC_TYPE SAPRaycaster<SAPDomain>
 #define GET_COORD(BOUNDS, POINT, AXIS) BOUNDS[(POINT)*AXES_COUNT + AXIS]
 
 namespace grynca {
@@ -20,19 +20,20 @@ namespace grynca {
     }
 
     SRC_TPL
+    template <typename HitCallback>
     inline void SRC_TYPE::getHits(const HitCallback& cb) {
         getHitsRec_(cb, mgr_->getRootSegment());
     }
 
     SRC_TPL
-    inline SRC_TYPE::SAPRaycaster(Manager& mgr)
+    inline SRC_TYPE::SAPRaycaster(const Manager& mgr)
      : mgr_(&mgr), prev_box_(InvalidId())
     {
     }
 
 
     SRC_TPL
-    inline bool SRC_TYPE::overlapBox_(f32* bounds, f32& t_out) {
+    inline bool SRC_TYPE::overlapBox_(const f32* bounds, f32& t_out)const {
 
         f32 tmin = (GET_COORD(bounds, ray_.dir_sgn[0], 0) - ray_.origin[0])*ray_.inv_dir[0];
         f32 tmax = (GET_COORD(bounds, 1-ray_.dir_sgn[0], 0) - ray_.origin[0])*ray_.inv_dir[0];
@@ -67,7 +68,7 @@ namespace grynca {
     }
 
     SRC_TPL
-    inline bool SRC_TYPE::overlapSegment_(Segment* seg, f32& t_out) {
+    inline bool SRC_TYPE::overlapSegment_(Segment* seg, f32& t_out)const {
         f32 bounds[AXES_COUNT*2];
         for (u32 a=0; a<AXES_COUNT; ++a) {
             seg->getLowBorder(a, bounds[a]);
@@ -77,6 +78,7 @@ namespace grynca {
     }
 
     SRC_TPL
+    template <typename HitCallback>
     inline bool SRC_TYPE::getHitsRec_(const HitCallback& cb, Segment* seg) {
         if (seg->isSplit()) {
             f32 t1, t2;
@@ -108,15 +110,14 @@ namespace grynca {
             }
         }
         else {
-            f32 bounds[AXES_COUNT*2];
             for (u32 pid=0; pid<seg->points_[0].size(); ++pid) {
                 SAP::EndPoint &p = seg->points_[0][pid];
                 if (p.getIsMax()) {
-                    u32 bid = p.getBoxId();
-                    mgr_->getBox(bid, bounds);
+                    u32 box_inner_id = p.getBoxId();
+                    const auto& box = mgr_->boxes_.getItemWithInnerIndex(box_inner_id);
                     f32 t;
-                    if (overlapBox_(bounds, t)) {
-                        overlaps_in_curr_seg_.push_back({bid, t});
+                    if (overlapBox_(box.getBounds(), t)) {
+                        overlaps_in_curr_seg_.push_back({box_inner_id, t});
                     }
                 }
             }

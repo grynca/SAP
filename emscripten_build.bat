@@ -1,14 +1,20 @@
+@echo off
+set mydir=%cd% 
+if not defined EMSDK (
+    cd c:\DEV\ENV\emscripten\
+    call emsdk activate latest
+)
+cd %mydir%
 mkdir build
 cd build
 mkdir Emscripten
 cd ..
 set EMCC_DEBUG=2
 
-set IDIRS= -Isrc -Iinclude -Ic:/DEV/gamedev/base/src -Ic:/DEV/gamedev/maths/src -Ic:/DEV/gamedev/assets/include -Ic:/DEV/libs/mingw/glm
-set FLAGS= -std=c++11 -DNDEBUG -DUSE_SDL2 -DWEB -DGLM_FORCE_RADIANS %IDIRS% -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s USE_LIBPNG=1 -s TOTAL_MEMORY=134217728 -O3 --use-preload-plugins --preload-file data
+set IDIRS= -Itest -Iinclude -Ic:/DEV/gamedev/base/include -Ic:/DEV/gamedev/maths/include -Ic:/DEV/gamedev/assets/include -Ic:/DEV/ENV/msys64/mingw64/include
+set FLAGS= -std=c++14 -DUSE_SDL2 -DNDEBUG -DWEB -DGLM_FORCE_RADIANS -DGLM_PRECISION_MEDIUMP_FLOAT %IDIRS% -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s USE_LIBPNG=1 -s TOTAL_MEMORY=134217728 -O3 --use-preload-plugins --preload-file data
 
-set SOURCES= src/main.cpp src/update_loop.cpp
+set SOURCES= test/main.cpp
 
 call emcc %SOURCES% %FLAGS% -o build/Emscripten/main.bc
-
 call emcc build/Emscripten/main.bc %FLAGS% -o build/Emscripten/main.html
